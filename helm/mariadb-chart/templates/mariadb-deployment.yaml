@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-mariadb-dp
+  namespace: {{ template "namespace" . }}
+  {{- if .Values.labels.dp }}
+  labels:
+    tier: {{ .Values.labels.dp }}
+  {{- end }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+    {{- template "labels" . }}
+  template:
+    metadata:
+      name: {{ .Release.Name }}-mariadb-pod
+      labels:
+      {{- include "labels" . | indent 2 }}
+    spec:
+
+      volumes:
+      - name: {{ .Values.volumes.vol1 }}
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-{{ .Values.pvclaim.name }}
+
+      - name: {{ .Values.volumes.vol2 }}
+        configMap:
+          name: {{ .Release.Name }}-{{ .Values.configmap.script }}
+
+      containers:
+      - name: mariadb-ctr
+        image: {{ .Values.image.repository | default "mariadb" }}:{{ .Values.image.tag | default "10.8.6" }}
+        ports:
+        - containerPort: {{ .Values.port }}
+        #environment variable from cofigmap
+
+        envFrom:
+        - configMapRef:
+            name: {{ .Release.Name }}-{{ .Values.configmap.db.name }}
+        - secretRef:
+            name: {{ .Release.Name }}-{{ .Values.secret.name }}
+
+        # env:
+        # - name: MYSQL_ROOT_PASSWORD
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: php-db-secret
+        #       key: MYSQL_ROOT_PASSWORD
+
+        # - name: MYSQL_USER
+        #   valueFrom:
+        #     configMapKeyRef:
+        #       name: php-db-configmap
+        #       key: USER
+
+        # - name: MYSQL_PASSWORD
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: php-db-secret
+        #       key: DB_PASSWORD
+
+        # - name: MYSQL_DATABASE
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: php-db-secret
+        #       key: DB_DATABASE
+
+        # volume mount into mysql ctr
+        volumeMounts:
+        - mountPath: {{ .Values.volumeMounts.dbData }}
+          {{- with .Values.volumes }}
+          name: {{ .vol1 }}
+        - mountPath: {{ $.Values.volumeMounts.dockerEntrypoint }} #this dir executed when ctr will start 
+          name: {{ .vol2 }}
+          {{- end }}
+
+
+

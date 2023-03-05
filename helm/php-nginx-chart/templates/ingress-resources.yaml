@@ -1,0 +1,45 @@
+
+# first requirment is to deploy ingress controller 
+
+# you can deploy within ingress-nginx namespace by -> kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.5.1/deploy/static/provider/cloud/deploy.yaml 
+
+{{- if .Values.ingress.create }}
+
+{{- with .Values.ingress }}
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ $.Release.Name }}-{{ .name }}
+  namespace: {{ .namespace }}
+  annotations:  
+    kubernetes.io/ingress.class: {{ .class }}
+    nginx.ingress.kubernetes.io/rewrite-target: {{ .rewriteTarget }}
+    # nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    # nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    # nginx.org/client-max-body-size: "500m"
+    # nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  # ingressClassName: nginx
+  # tls:
+  # - hosts:
+  #   - php.deepcloud.com
+  #   secretName: ingress-ssl
+  rules:
+  # - host: php.deepcloud.com
+  - http:
+      paths:
+      - path: {{ .path }}
+        pathType: Prefix
+        backend:
+          service:
+            {{- with .backend.service }}
+            name: {{ $.Release.Name }}-{{ .name }}
+            port:
+              number: {{ .port }}
+            {{- end }}
+
+{{- end }}
+
+{{- end }}
+# configure ssl by yhis link :-> https://snyk.io/blog/setting-up-ssl-tls-for-kubernetes-ingress/

@@ -1,0 +1,75 @@
+
+######### PHP-deployment ##############
+replicaCount: 2
+namespace: dev
+labels:
+  dp: dp-nginx-php
+  web: nginx-php
+  tier: front-end
+
+
+image:
+  php:
+    repository: deepcloudmosphere/dp-nginx-php
+    tag: phpfpm-code
+  nginx:
+    repository: nginx
+    tag: latest
+
+ports:
+  nginx: 80
+  php: 9000
+
+
+## Volumes
+
+volumes:
+  vol1: nginx-config-volume
+  vol2: shared-files
+
+volumeMounts:
+  web: /var/www/html/
+  nginxConf: /etc/nginx/conf.d/
+## ConfigMap
+
+configmap:
+  nginx: nginx-config
+  phpdb: php-db-configmap
+  dbHost:
+    name: db
+    namespace: db
+    domain: svc.cluster.local
+
+  dbUser: deepak
+
+## secret
+
+secret:
+  phpdb: php-db-secret
+  passwd: ZGVlcGFrMTIz
+  db: ZWNvbWRi
+
+## Service 
+
+service:
+  port: 80
+  targetPort: 80
+  nodePort: 30006
+
+
+
+########### Ingress #######################
+
+ingress:
+  create: false
+  namespace: ingress-nginx
+  name: ingress-php
+  class: "nginx"
+  rewriteTarget: /
+  path: /
+  backend:
+    service:
+      name: php-service-external
+      port: 80
+
+

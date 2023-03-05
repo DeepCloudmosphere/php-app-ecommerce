@@ -1,0 +1,17 @@
+
+{{- if .Values.ingress.create }}
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ .Release.Name }}-php-service-external
+  namespace: ingress-nginx
+spec:
+  type: ExternalName
+  externalName: {{ .Release.Name }}-svc-nginx-php.dev.svc.cluster.local
+  ports:
+    {{- with .Values.ingress.backend.service }}
+  - port: {{ .port }}
+    {{- end }}
+
+{{- end }}

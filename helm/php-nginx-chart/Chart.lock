@@ -1,0 +1,6 @@
+dependencies:
+- name: mariadb-chart
+  repository: https://deepcloudmosphere.github.io/helm-charts/
+  version: 0.1.0
+digest: sha256:f0e6c8f14c4e67eb09943efdcc165761048b5451745cdc02e2fda1bcffecb420
+generated: "2023-01-27T22:20:00.227475+05:30"

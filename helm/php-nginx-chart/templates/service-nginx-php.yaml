@@ -1,0 +1,21 @@
+
+{{- if .Values.ingress.create }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-svc-nginx-php
+  namespace: {{ template "namespace" . }}
+spec:
+  # type: NodePort
+  {{- with .Values.service }}
+  ports:
+  - port: {{ .port }}
+    targetPort: {{ .targetPort }}
+    # nodePort: 30006
+  {{- end }}
+  selector:
+      {{- template "labels" . }}
+
+{{- end }}
+
+

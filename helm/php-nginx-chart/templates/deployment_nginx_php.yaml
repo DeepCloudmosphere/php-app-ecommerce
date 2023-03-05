@@ -1,0 +1,127 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-dp-nginx-php
+  namespace: {{ template "namespace" . }}
+  {{- if .Values.labels.dp }}
+  labels:
+    name: {{ .Values.labels.dp }}
+  {{- end }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+    {{- template "labels" . }}
+  template:
+    metadata:
+      name: {{ .Release.Name }}-nginx-php-pod
+      labels:
+      {{- include "labels" . | indent 2  }}
+    spec:
+
+      volumes:
+      - name: {{ .Values.volumes.vol1 }}
+        configMap:
+          name: {{ .Release.Name }}-{{ .Values.configmap.nginx }}
+      - name: {{ .Values.volumes.vol2 }}
+        emptyDir: {}
+
+      containers:
+
+      - name: php-ctr
+        {{- with .Values.image.php }}
+        image: {{ .repository | default "nginx" }}:{{ .tag | default "latest" }}
+        {{- end }}
+        ports:
+        - containerPort: {{ .Values.ports.php }}
+
+
+        volumeMounts:
+        {{- template "volumes" . }}
+
+        # Important! After this container has started, the PHP files
+        # in our Docker image aren't in the shared volume. We need to 
+        # get them into the shared volume. If we tried to write directly
+        # to this volume from our Docker image the files wouldn't appear
+        # in the nginx container.
+        #
+        # So, after the container has started, copy the PHP files from this
+        # container's local filesystem (/app -- added via the Docker image) 
+        # to the shared volume, which is mounted at /var/www/html.
+
+        lifecycle:
+          postStart:
+            exec:
+              command: ["/bin/sh", "-c", "cp -r /app/. /var/www/html"]
+
+        # env variable for mysqli connector in php image 
+
+        envFrom:
+        - configMapRef:
+            name: {{ .Release.Name }}-{{ .Values.configmap.phpdb }}
+        - secretRef:
+            name: {{ .Release.Name }}-{{ .Values.secret.phpdb }}
+
+
+        # env:
+        # # database user
+        # - name: DB_USERNAME
+        #   valueFrom:
+        #     configMapKeyRef:
+        #       name: php-db-configmap
+        #       key: USER
+        # #database host
+        # - name: DB_HOST
+        #   valueFrom:
+        #     configMapKeyRef:
+        #       name: php-db-configmap
+        #       key: HOST
+        # # database password
+        # - name: DB_PASSWORD
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: php-db-secret
+        #       key: DB_PASSWORD
+        # # database name
+        # - name: DB_DATABASE
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: php-db-secret
+        #       key: DB_DATABASE
+
+      - name: nginx-ctr
+        {{- with .Values.image.nginx }}
+        image: {{ .repository | default "nginx" }}:{{ .tag | default "latest" }}
+        {{- end }}
+        ports:
+        - containerPort: {{ .Values.ports.nginx }}
+        volumeMounts:
+        {{- template "volumes" . }}
+        - mountPath: {{ .Values.volumeMounts.nginxConf }}
+          name: {{ .Values.volumes.vol1 }}
+
+
+
+
+
+
+
+      ##################################you can also use init container for code #######################
+
+      # initContainers:
+      # - name: init-myservice
+      #   image: deepcloudmosphere/dp-nginx-php:init-helper
+      #   command: ['sh', '-c', 'git clone https://github.com/Dountless/web-app-ecommerce.git/ /opt/']
+      #   volumeMounts:
+      #   - mountPath: /opt/
+      #     name: my-data
+      ######################################################################################################
+
+
+
+
+
+
+
+
+

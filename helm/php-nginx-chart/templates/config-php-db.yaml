@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-php-db-configmap
+  namespace: {{ template "namespace" . }}
+data:
+  {{- with .Values.configmap }}
+  DB_HOST: {{ $.Release.Name }}-{{ .dbHost.name }}.{{ $.Release.Name }}-{{ .dbHost.namespace }}.{{ .dbHost.domain }}
+  DB_USERNAME: {{ .dbUser }}
+  {{- end }}

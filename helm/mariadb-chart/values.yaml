@@ -1,0 +1,71 @@
+
+###  mariadb deployment #####
+replicaCount: 1
+namespace: db
+
+labels:
+  tier: back-end
+  web: db
+  dp: back-end
+
+image:
+  repository: mariadb
+  tag: 10.8.6
+
+port: 3306
+
+
+
+############# volumes ##########
+
+volumes:
+  vol1: mysql-data
+  vol2: mysql-product-data
+
+volumeMounts:
+  dbData: /var/lib/mysql
+  dockerEntrypoint: /docker-entrypoint-initdb.d
+
+####### PersistentVolumeClaim ############
+pvclaim:
+  name: db-pv-claim
+  storage: 5Gi
+  accessModes: ReadWriteMany
+
+pv:
+  name: db-pv-volume
+  storage: 10Gi
+  accessModes: ReadWriteMany
+  hostpath: /home/vagrant/db-pv-volume-data
+
+
+####### config map ######
+
+configmap:
+  db:
+    name: db-configmap
+    user: deepak
+
+  script: db-load-script
+
+
+
+########## secret ######### 
+
+secret:
+  name: db-secret
+  data:
+    mysqlrootpass: bXlzcWw=
+    mysqlpass: ZGVlcGFrMTIz
+    mysqldb: ZWNvbWRi
+
+
+######## service ############
+
+service:
+  name: db
+  type: ClusterIP
+  port: 3306
+  targetport: 3306
+
+
