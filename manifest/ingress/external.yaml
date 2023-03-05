@@ -1,0 +1,10 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: php-service-external
+  namespace: ingress-nginx
+spec:
+  type: ExternalName
+  externalName: svc-nginx-php.dev.svc.cluster.local
+  ports:
+    - port: 80
