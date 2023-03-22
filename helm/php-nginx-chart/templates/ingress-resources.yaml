@@ -42,4 +42,5 @@ spec:
 {{- end }}
 
 {{- end }}
+
 # configure ssl by yhis link :-> https://snyk.io/blog/setting-up-ssl-tls-for-kubernetes-ingress/

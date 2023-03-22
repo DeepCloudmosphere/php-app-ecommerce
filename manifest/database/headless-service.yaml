@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: db-h
+  name: db-h # give nage in helm with release name
   namespace: db
 spec:
   ports:

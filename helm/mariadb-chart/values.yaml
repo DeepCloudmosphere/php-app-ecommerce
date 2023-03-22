@@ -1,20 +1,51 @@
-
 ###  mariadb deployment #####
-replicaCount: 1
+replicaCount: 2
 namespace: db
 
 labels:
   tier: back-end
   web: db
   dp: back-end
+  ns: db-ns
 
 image:
   repository: mariadb
   tag: 10.8.6
 
+containers:
+  name: mariadb-ctr
+
 port: 3306
 
+##### radinessprobe and liveness probe ######
 
+readinessProbe:
+  port: 3306
+  initialDelaySeconds: 20
+  periodSeconds: 10
+  failureThreshold: 6 # bydefault 3
+
+livenessProbe:
+  port: 3306
+  initialDelaySeconds: 15
+  periodSeconds: 20
+  failureThreshold: 6 #bydefault 3
+
+#### node affinity #####
+affinity:
+  key: node
+  operator: In
+  values:
+    - kubenode02
+    - minikube
+
+#### tolerations #####
+tolerations:
+  key: "color"
+  operator: "Equal"
+  value: "blue"
+  effect: "NoSchedule"
+  # tolerationSeconds: 10
 
 ############# volumes ##########
 
@@ -38,7 +69,6 @@ pv:
   accessModes: ReadWriteMany
   hostpath: /home/vagrant/db-pv-volume-data
 
-
 ####### config map ######
 
 configmap:
@@ -48,9 +78,7 @@ configmap:
 
   script: db-load-script
 
-
-
-########## secret ######### 
+########## secret #########
 
 secret:
   name: db-secret
@@ -58,7 +86,6 @@ secret:
     mysqlrootpass: bXlzcWw=
     mysqlpass: ZGVlcGFrMTIz
     mysqldb: ZWNvbWRi
-
 
 ######## service ############
 
@@ -68,4 +95,50 @@ service:
   port: 3306
   targetport: 3306
 
+####### headless service #######
+headlessService:
+  name: db-h
+  port: 3306
+  targetport: 3306
+  clusterIP: None
 
+## cpu and memory limits
+
+cpu:
+  name: cpu-limit-range
+  limits:
+    default:
+      cpu: "500m"
+    defaultRequest:
+      cpu: "250m"
+    type: Container
+
+memory:
+  name: mem-limit-range
+  limits:
+    default:
+      memory: "500Mi"
+    defaultRequest:
+      memory: "256Mi"
+    type: Container
+
+### network policy
+
+networkPolicy:
+  name: db-network-policy
+  # labels for pod where to apply network policy
+  podSelectorLabels:
+    web: db
+    tier: back-end
+  policyTypes:
+    - Ingress
+    - Egress
+
+  ingress:
+    namespaceLabels:
+      ns: web-ns
+    # labels for pod to allow by network policy
+    podSelectorLabels:
+      web: nginx-php
+      tier: front-end
+    port: 3306

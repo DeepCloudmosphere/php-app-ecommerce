@@ -1,0 +1,139 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Release.Name }}-mariadb-st
+  namespace: {{ template "namespace" . }}
+  {{- if .Values.labels.dp }}
+  labels:
+    tier: {{ .Values.labels.dp }}
+  {{- end }}
+spec:
+  serviceName: {{ .Release.Name }}-{{ .Values.headlessService.name }}
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+    {{- template "labels" . }}
+  template:
+    metadata:
+      name: {{ .Release.Name }}-mariadb-pod
+      labels:
+      {{- include "labels" . | indent 2 }}
+    spec:
+
+  ######## node affinity work like node selector but in complex scenerio ##########
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: {{ .Values.affinity.key }}
+                    operator: {{ .Values.affinity.operator }}
+                    values:
+                    {{- range .Values.affinity.values }}
+                      - {{ . }}
+                    {{- end }}
+      # # if node have color=blue:NoSchedule tainted this pod can schedule on it because it has toleration  , or may be schedule on other node if here no nodeselector or nodeaffinity  is set.
+    
+      tolerations:
+      {{- with .Values.tolerations }}
+        - key: {{ .key }}
+          operator: {{ .operator }}
+          value: {{ .value  }}
+          effect: {{ .effect }}
+      {{- end }}
+
+
+      volumes:
+      # - name: {{ .Values.volumes.vol1 }}
+      #   persistentVolumeClaim:
+      #     claimName: {{ .Release.Name }}-{{ .Values.pvclaim.name }}
+
+      - name: {{ .Values.volumes.vol2 }}
+        configMap:
+          name: {{ .Release.Name }}-{{ .Values.configmap.script }}
+
+      containers:
+      - name: mariadb-ctr
+        image: {{ .Values.image.repository | default "mariadb" }}:{{ .Values.image.tag | default "10.8.6" }}
+        ports:
+        - containerPort: {{ .Values.port }}
+
+        readinessProbe:
+        {{- with .Values.readinessProbe }}
+            tcpSocket:
+              port: {{ .port }}
+            initialDelaySeconds: {{ .initialDelaySeconds }}
+            periodSeconds: {{ .periodSeconds }}
+            failureThreshold: {{ .failureThreshold }} # bydefault 3
+        {{- end }}
+
+        livenessProbe:
+        {{- with .Values.livenessProbe }}
+            tcpSocket:
+              port: {{ .port }}
+            initialDelaySeconds: {{ .initialDelaySeconds }}
+            periodSeconds: {{ .periodSeconds }}
+            failureThreshold: {{ .failureThreshold }} # bydefault 3
+        {{- end }}
+
+        #environment variable from cofigmap
+
+        envFrom:
+        - configMapRef:
+            name: {{ .Release.Name }}-{{ .Values.configmap.db.name }}
+        - secretRef:
+            name: {{ .Release.Name }}-{{ .Values.secret.name }}
+
+        # env:
+        # - name: MYSQL_ROOT_PASSWORD
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: php-db-secret
+        #       key: MYSQL_ROOT_PASSWORD
+
+        # - name: MYSQL_USER
+        #   valueFrom:
+        #     configMapKeyRef:
+        #       name: php-db-configmap
+        #       key: USER
+
+        # - name: MYSQL_PASSWORD
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: php-db-secret
+        #       key: DB_PASSWORD
+
+        # - name: MYSQL_DATABASE
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: php-db-secret
+        #       key: DB_DATABASE
+
+        # volume mount into mysql ctr
+        volumeMounts:
+        - mountPath: {{ .Values.volumeMounts.dbData }}
+          {{- with .Values.volumes }}
+          name: {{ .Release.Name }}-{{ .Values.pvclaim.name }} #{{ .vol1 }}
+        - mountPath: {{ $.Values.volumeMounts.dockerEntrypoint }} #this dir executed when ctr will start 
+          name: {{ .vol2 }}
+          {{- end }}
+
+  volumeClaimTemplates:
+    - metadata:
+        name: {{ .Release.Name }}-{{ .Values.pvclaim.name }}
+        namespace: {{ template "namespace" . }}
+      spec:
+        {{- with .Values.pvclaim }}
+        accessModes:
+        - {{ .accessModes }}
+        resources:
+          requests:
+            storage: {{ .storage }}
+        {{- end }}
+        # storageClassName: local-storage
+# if you not use storage class so, you have to created pv manually on local and configure that,
+# if you will not created pv for pvc then k8s automatically dynamically created pv for these pvc but its not persistent data it will delete when pvc is deleted.
+# for testing purpose i left as it is
+
+
+

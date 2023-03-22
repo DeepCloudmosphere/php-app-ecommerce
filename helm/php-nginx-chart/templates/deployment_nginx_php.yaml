@@ -18,6 +18,33 @@ spec:
       labels:
       {{- include "labels" . | indent 2  }}
     spec:
+      # your node must have this label otherwise pod  going to pending state
+      # nodeSelector:
+      #   node: kubenode02
+
+      ######## node affinity work like node selector but node affinity  more used  in complex scenerio ##########
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: {{ .Values.nodeAffinity.key }}
+                    operator: {{ .Values.nodeAffinity.operator }}
+                    values:
+                    {{- range .Values.nodeAffinity.values }}
+                       - {{ . }}
+                    {{- end }}
+
+      tolerations:
+        - key: {{ .Values.tolerations.a.key }}
+          operator: {{ .Values.tolerations.a.operator }}
+          value: {{ .Values.tolerations.a.value }}
+          effect: {{ .Values.tolerations.a.effect }}
+          # tolerationSeconds: 10
+        - key: {{ .Values.tolerations.b.key }}
+          operator: {{ .Values.tolerations.b.operator }}
+          effect: {{ .Values.tolerations.b.effect }}
+          # tolerationSeconds: 10
 
       volumes:
       - name: {{ .Values.volumes.vol1 }}
@@ -28,12 +55,25 @@ spec:
 
       containers:
 
-      - name: php-ctr
+      - name: {{ .Release.Name }}-{{ .Values.containers.php.name }}
         {{- with .Values.image.php }}
         image: {{ .repository | default "nginx" }}:{{ .tag | default "latest" }}
         {{- end }}
         ports:
         - containerPort: {{ .Values.ports.php }}
+        resources:
+          requests:
+          {{- with .Values.containers.php.resources.requests }}
+            memory: {{ .memory }}
+            cpu: {{ .cpu }}
+          {{- end }}
+
+          limits:
+          {{- with .Values.containers.php.resources.limits }}
+            cpu: {{ .cpu  }}
+            memory: {{ .memory  }}
+          {{- end }}
+
 
 
         volumeMounts:
@@ -89,12 +129,26 @@ spec:
         #       name: php-db-secret
         #       key: DB_DATABASE
 
-      - name: nginx-ctr
+      - name: {{ .Release.Name }}-{{ .Values.containers.nginx.name }}
         {{- with .Values.image.nginx }}
         image: {{ .repository | default "nginx" }}:{{ .tag | default "latest" }}
         {{- end }}
         ports:
         - containerPort: {{ .Values.ports.nginx }}
+
+        resources:
+          requests:
+          {{- with .Values.containers.nginx.resources.requests }}
+            memory: {{ .memory }}
+            cpu: {{ .cpu }}
+          {{- end }}
+
+          limits:
+          {{- with .Values.containers.nginx.resources.limits }}
+            cpu: {{ .cpu  }}
+            memory: {{ .memory  }}
+          {{- end }}
+
         volumeMounts:
         {{- template "volumes" . }}
         - mountPath: {{ .Values.volumeMounts.nginxConf }}
@@ -116,6 +170,7 @@ spec:
       #   - mountPath: /opt/
       #     name: my-data
       ######################################################################################################
+
 
 
 

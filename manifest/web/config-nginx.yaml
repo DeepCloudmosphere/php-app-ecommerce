@@ -5,7 +5,7 @@ metadata:
   namespace: dev
 data:
   default.conf: |-
-  
+
     server {  
 
      listen 80 default_server;  
@@ -42,4 +42,4 @@ data:
      location ~ /.ht {  
       deny all;  
      }  
-    } 
+    }

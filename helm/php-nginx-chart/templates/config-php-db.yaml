@@ -5,6 +5,6 @@ metadata:
   namespace: {{ template "namespace" . }}
 data:
   {{- with .Values.configmap }}
-  DB_HOST: {{ $.Release.Name }}-{{ .dbHost.name }}.{{ $.Release.Name }}-{{ .dbHost.namespace }}.{{ .dbHost.domain }}
+  DB_HOST: {{ .dbHost.statefullName }}.{{ $.Release.Name }}-{{ .dbHost.name }}.{{ $.Release.Name }}-{{ .dbHost.namespace }}.{{ .dbHost.domain }}
   DB_USERNAME: {{ .dbUser }}
   {{- end }}

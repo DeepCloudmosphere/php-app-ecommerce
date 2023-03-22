@@ -1,4 +1,3 @@
-
 ######### PHP-deployment ##############
 replicaCount: 2
 namespace: dev
@@ -6,7 +5,7 @@ labels:
   dp: dp-nginx-php
   web: nginx-php
   tier: front-end
-
+  ns: web-ns
 
 image:
   php:
@@ -16,10 +15,73 @@ image:
     repository: nginx
     tag: latest
 
+containers:
+  php:
+    name: php-ctr
+    resources:
+      requests:
+        memory: "100Mi"
+        cpu: "150m"
+      limits:
+        cpu: "400m"
+        memory: "200Mi"
+
+  nginx:
+    name: nginx-ctr
+    resources:
+      requests:
+        memory: "100Mi"
+        cpu: "150m"
+      limits:
+        cpu: "400m"
+        memory: "200Mi"
+
 ports:
   nginx: 80
   php: 9000
 
+## node affinity
+nodeAffinity:
+  key: node
+  operator: In
+  values:
+    - kubenode02
+    - kubemaster
+    - minikube
+
+## toleration
+
+tolerations:
+  a:
+    key: "color"
+    operator: "Equal"
+    value: "blue"
+    effect: "NoSchedule"
+    # tolerationSeconds: 10
+  b:
+    key: "node-role.kubernetes.io/control-plane"
+    operator: "Exists"
+    effect: "NoSchedule"
+    # tolerationSeconds: 10
+
+## cpu and memory limit
+cpu:
+  name: cpu-limit-range
+  limits:
+    default:
+      cpu: "300m"
+    defaultRequest:
+      cpu: "100m"
+    type: Container
+
+mem:
+  name: mem-limit-range
+  limits:
+    default:
+      memory: "300Mi"
+    defaultRequest:
+      memory: "100Mi"
+    type: Container
 
 ## Volumes
 
@@ -36,7 +98,8 @@ configmap:
   nginx: nginx-config
   phpdb: php-db-configmap
   dbHost:
-    name: db
+    statefullName: mariadb-st-0
+    name: db-h
     namespace: db
     domain: svc.cluster.local
 
@@ -49,14 +112,12 @@ secret:
   passwd: ZGVlcGFrMTIz
   db: ZWNvbWRi
 
-## Service 
+## Service
 
 service:
   port: 80
   targetPort: 80
   nodePort: 30006
-
-
 
 ########### Ingress #######################
 
@@ -71,5 +132,3 @@ ingress:
     service:
       name: php-service-external
       port: 80
-
-

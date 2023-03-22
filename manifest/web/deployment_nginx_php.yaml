@@ -37,7 +37,7 @@ spec:
                       - kubenode02
                       - kubemaster
 
-      # if node have color=blue:NoSchedule tainted this pod can schedule on it because it has toleration  , or may be schedule on other node if here no nodeselector or nodeaffinity  is set.
+      #  if node have color=blue:NoSchedule tainted this pod can schedule on it because it has toleration  , or may be schedule on other node if here no nodeselector or nodeaffinity  is set.
       tolerations:
         - key: "color"
           operator: "Equal"

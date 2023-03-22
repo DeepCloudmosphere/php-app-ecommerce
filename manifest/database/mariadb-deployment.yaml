@@ -6,7 +6,7 @@ metadata:
   labels:
     tier: back-end
 spec:
-  serviceName: "db-h"
+  serviceName: "db-h" # give name in helm with release name
   replicas: 3
   selector:
     matchLabels:
@@ -72,6 +72,7 @@ spec:
             initialDelaySeconds: 15
             periodSeconds: 20
             failureThreshold: 6 #bydefault 3
+
           #environment variable from cofigmap
 
           envFrom:
