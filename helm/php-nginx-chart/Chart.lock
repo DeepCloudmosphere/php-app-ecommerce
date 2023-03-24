@@ -1,6 +1,6 @@
 dependencies:
-- name: nginx-ingress-controller
-  repository: https://charts.bitnami.com/bitnami
-  version: 9.4.0
-digest: sha256:e965c3287dcc118e031186fbfb414d73756c177df988a28454c649068dd43e9b
-generated: "2023-03-22T18:11:14.931098+05:30"
+- name: php-mariadb-chart
+  repository: https://deepcloudmosphere.github.io/helm-charts/
+  version: 0.1.0
+digest: sha256:0187acb734e6f84bb06961fc1dd8a14854c26e5715d0f4096f8863c8d917122b
+generated: "2023-03-24T18:10:05.579903+05:30"
