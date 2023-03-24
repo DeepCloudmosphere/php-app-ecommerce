@@ -21,9 +21,7 @@ If you want to access application through ingress follow steps:
 
     Step 3: Get Url To Access application
 
-         $  echo " <your node ip>:$( kubectl get svc --all-namespaces -o go-template='{{range .items}}{{range.spec.ports}}{{if .nodePort}}{{.nodePort}}{{"\n"}}{{end}}{{end}}{{end}}' | head -n 1 ) "
-
-
+         $  echo " <your node ip>:$( kubectl get svc --all-namespaces -o go-template={{ `'{{range .items}}{{range.spec.ports}}{{if .nodePort}}{{.nodePort}}{{"\n"}}{{end}}{{end}}{{end}}' ` }} | head -n 1 ) "
 
 
 To learn more about the release, try:
