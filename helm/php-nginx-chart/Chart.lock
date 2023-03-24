@@ -1,6 +1,6 @@
 dependencies:
-- name: mariadb-chart
-  repository: https://deepcloudmosphere.github.io/helm-charts/
-  version: 0.1.0
-digest: sha256:f0e6c8f14c4e67eb09943efdcc165761048b5451745cdc02e2fda1bcffecb420
-generated: "2023-01-27T22:20:00.227475+05:30"
+- name: nginx-ingress-controller
+  repository: https://charts.bitnami.com/bitnami
+  version: 9.4.0
+digest: sha256:e965c3287dcc118e031186fbfb414d73756c177df988a28454c649068dd43e9b
+generated: "2023-03-22T18:11:14.931098+05:30"

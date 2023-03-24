@@ -1,5 +1,5 @@
 ###  mariadb deployment #####
-replicaCount: 2
+replicaCount: 1
 namespace: db
 
 labels:
@@ -108,7 +108,7 @@ cpu:
   name: cpu-limit-range
   limits:
     default:
-      cpu: "500m"
+      cpu: "300m"
     defaultRequest:
       cpu: "250m"
     type: Container

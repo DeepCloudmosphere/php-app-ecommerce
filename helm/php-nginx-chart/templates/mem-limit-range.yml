@@ -11,4 +11,4 @@ spec:
       defaultRequest:
         cpu: {{ .defaultRequest.memory }}
       type: {{ .type }}
-   {{-end }}
+   {{- end }}

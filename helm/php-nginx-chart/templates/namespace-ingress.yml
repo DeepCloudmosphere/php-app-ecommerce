@@ -1,0 +1,11 @@
+{{- if .Values.ingress.create }}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ .Values.ingress.namespace }}
+  {{- if .Values.labels.ns }}
+  labels:
+    ns: {{ .Values.labels.ns }}
+  {{- end }}
+
+{{- end }}

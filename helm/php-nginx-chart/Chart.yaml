@@ -20,21 +20,19 @@ version: 0.1.0
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
-# It is recommended to use it with quotes. 
+# It is recommended to use it with quotes.
 appVersion: "1.16.0"
 
+# dependencies:
+#   - name: nginx-ingress-controller
+#     version: "9.4.0"
+#     repository: "https://charts.bitnami.com/bitnami"
 
 # dependencies:
-# - name: ingress-nginx
-#   version: "4.4.2"
-#   repository: "https://kubernetes.github.io/ingress-nginx"
-
-dependencies:
-- name: mariadb-chart
-  version: "0.1.0"
-  repository: "https://deepcloudmosphere.github.io/helm-charts/"
+# - name: mariadb-chart
+#   version: "0.1.0"
+#   repository: "https://deepcloudmosphere.github.io/helm-charts/"
 
 maintainers:
-- name: Deepak verma
-  email: deepcloud.28@gmail.com
-
+  - name: Deepak verma
+    email: deepcloud.28@gmail.com

@@ -11,4 +11,4 @@ spec:
       defaultRequest:
         cpu: {{ .defaultRequest.cpu }}
       type: {{ .type }}
-   {{-end }}
+   {{- end }}

@@ -5,6 +5,7 @@ metadata:
   namespace: {{ template "namespace" . }}
 data:
   {{- with .Values.configmap }}
-  DB_HOST: {{ .dbHost.statefullName }}.{{ $.Release.Name }}-{{ .dbHost.name }}.{{ $.Release.Name }}-{{ .dbHost.namespace }}.{{ .dbHost.domain }}
+  # DB_HOST: {{ $.Release.Name }}-{{ .dbHost.statefullName }}.{{ $.Release.Name }}-{{ .dbHost.name }}.{{ $.Release.Name }}-{{ .dbHost.namespace }}.{{ .dbHost.domain }}
+  DB_HOST: db1-mariadb-st-0.db1-db-h.db1-db.svc.cluster.local
   DB_USERNAME: {{ .dbUser }}
   {{- end }}

@@ -47,10 +47,10 @@ spec:
       # - name: {{ .Values.volumes.vol1 }}
       #   persistentVolumeClaim:
       #     claimName: {{ .Release.Name }}-{{ .Values.pvclaim.name }}
-
-      - name: {{ .Values.volumes.vol2 }}
-        configMap:
-          name: {{ .Release.Name }}-{{ .Values.configmap.script }}
+      
+        - name: {{ .Values.volumes.vol2 }}
+          configMap:
+            name: {{ .Release.Name }}-{{ .Values.configmap.script }}
 
       containers:
       - name: mariadb-ctr
@@ -113,7 +113,7 @@ spec:
         volumeMounts:
         - mountPath: {{ .Values.volumeMounts.dbData }}
           {{- with .Values.volumes }}
-          name: {{ .Release.Name }}-{{ .Values.pvclaim.name }} #{{ .vol1 }}
+          name: {{ $.Release.Name }}-{{ $.Values.pvclaim.name }} #{{ .vol1 }}
         - mountPath: {{ $.Values.volumeMounts.dockerEntrypoint }} #this dir executed when ctr will start 
           name: {{ .vol2 }}
           {{- end }}
