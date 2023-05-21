@@ -114,16 +114,26 @@ spec:
               name: mysql-product-data
   volumeClaimTemplates:
     - metadata:
-        name: db-pv-claim
-        namespace: db
+        name: ebs-claim
       spec:
         accessModes:
-          - ReadWriteMany
+          - ReadWriteOnce
+        storageClassName: ebs-sc
         resources:
           requests:
-            storage: 8Gi
-        # storageClassName: local-storage
-# if you not use storage class so, you have to created pv manually on local and configure that,
-# if you will not created pv for pvc then k8s automatically dynamically created pv for these pvc but its not persistent data it will delete when pvc is deleted.
-# for testing purpose i left as it is
+            storage: 3Gi
+#   volumeClaimTemplates:
+#     - metadata:
+#         name: db-pv-claim
+#         namespace: db
+#       spec:
+#         accessModes:
+#           - ReadWriteMany
+#         resources:
+#           requests:
+#             storage: 8Gi
+#         # storageClassName: local-storage
+# # if you not use storage class so, you have to created pv manually on local and configure that,
+# # if you will not created pv for pvc then k8s automatically dynamically created pv for these pvc but its not persistent data it will delete when pvc is deleted.
+# # for testing purpose i left as it is
 
