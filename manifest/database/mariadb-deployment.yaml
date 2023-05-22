@@ -109,7 +109,7 @@ spec:
           # volume mount into mysql ctr
           volumeMounts:
             - mountPath: /var/lib/mysql
-              name: db-pv-claim #mysql-data
+              name: ebs-claim #mysql-data
             - mountPath: /docker-entrypoint-initdb.d #this dir executed when ctr will start
               name: mysql-product-data
   volumeClaimTemplates:
@@ -121,17 +121,17 @@ spec:
         storageClassName: ebs-sc
         resources:
           requests:
-            storage: 3Gi
-#   volumeClaimTemplates:
-#     - metadata:
-#         name: db-pv-claim
-#         namespace: db
-#       spec:
-#         accessModes:
-#           - ReadWriteMany
-#         resources:
-#           requests:
-#             storage: 8Gi
+            storage: 4Gi
+  # volumeClaimTemplates:
+  #   - metadata:
+  #       name: ebs-claim
+  #       namespace: db
+  #     spec:
+  #       accessModes:
+  #         - ReadWriteMany
+  #       resources:
+  #         requests:
+  #           storage: 8Gi
 #         # storageClassName: local-storage
 # # if you not use storage class so, you have to created pv manually on local and configure that,
 # # if you will not created pv for pvc then k8s automatically dynamically created pv for these pvc but its not persistent data it will delete when pvc is deleted.
