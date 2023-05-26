@@ -59,9 +59,17 @@ volumeMounts:
 
 ####### PersistentVolumeClaim ############
 pvclaim:
-  name: db-pv-claim
+  name: ebs-sc-claim
   storage: 5Gi
   accessModes: ReadWriteMany
+
+####### storage class
+storageClass:
+  create: true
+  name: ebs-sc
+  provisioner: ebs.csi.aws.com
+  type: gp2
+  volumeBindingMode: WaitForFirstConsumer
 
 pv:
   name: db-pv-volume

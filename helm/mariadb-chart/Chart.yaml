@@ -23,6 +23,11 @@ version: 0.1.0
 # It is recommended to use it with quotes.
 appVersion: "10.8.6"
 
+dependencies:
+  - name: aws-ebs-csi-driver
+    version: "2.19.0"
+    repository: "https://kubernetes-sigs.github.io/aws-ebs-csi-driver"
+
 maintainers:
   - name: Deepak verma
     email: deepcloud.28@gmail.com

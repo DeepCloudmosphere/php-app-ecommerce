@@ -126,6 +126,9 @@ spec:
         {{- with .Values.pvclaim }}
         accessModes:
         - {{ .accessModes }}
+        {{- if $.Values.storageClass.create }}
+        storageClassName: {{ $.Values.storageClass.name }}
+        {{- end }}
         resources:
           requests:
             storage: {{ .storage }}
