@@ -127,7 +127,7 @@ spec:
         accessModes:
         - {{ .accessModes }}
         {{- if $.Values.storageClass.create }}
-        storageClassName: {{ $.Values.storageClass.name }}
+        storageClassName: {{ $.Release.Name }}-{{ $.Values.storageClass.name }}
         {{- end }}
         resources:
           requests:
