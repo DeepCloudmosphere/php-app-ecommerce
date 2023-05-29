@@ -29,8 +29,8 @@ appVersion: "1.16.0"
 #     repository: "https://charts.bitnami.com/bitnami"
 
 dependencies:
-  - name: php-mariadb-chart
-    version: "0.1.0"
+  - name: php-mariadb-ebs-chart
+    version: "0.1.1"
     repository: "https://deepcloudmosphere.github.io/helm-charts/"
 
 maintainers:
