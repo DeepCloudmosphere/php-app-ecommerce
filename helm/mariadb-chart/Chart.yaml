@@ -1,5 +1,5 @@
 apiVersion: v2
-name: php-mariadb-chart
+name: php-mariadb-ebs-chart
 description: A Helm chart for php-mariadb
 
 # A chart can be either an 'application' or a 'library' chart.

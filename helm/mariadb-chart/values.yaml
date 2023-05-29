@@ -37,7 +37,7 @@ affinity:
   operator: In
   values:
     - kubenode02
-    - minikube
+    - kubenode01
 
 #### tolerations #####
 tolerations:

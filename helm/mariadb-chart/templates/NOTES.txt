@@ -1,0 +1,29 @@
+Thank you for installing {{ .Chart.Name }}.
+
+Your release is named {{ .Release.Name }}.
+         
+####  Important Note 
+
+You have to set label on node first, because helm chart contain node affinity rule following have code snapsot:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node
+                    operator: In
+                    values:
+                      - kubenode02
+                      - kubenode01
+
+
+And you can set label on node by following command:
+
+$ kubectl label node <your node name> node=kubenode02
+$ kubectl label node <your node name> node=kubenode01
+
+
+To learn more about the release, try:
+
+  $ helm status {{ .Release.Name }}
+  $ helm get all {{ .Release.Name }}
