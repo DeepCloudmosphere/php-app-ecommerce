@@ -60,7 +60,7 @@ volumeMounts:
 ####### PersistentVolumeClaim ############
 pvclaim:
   name: ebs-sc-claim
-  storage: 5Gi
+  storage: 11Gi
   accessModes: ReadWriteOnce #ReadWriteMany
 
 ####### storage class
