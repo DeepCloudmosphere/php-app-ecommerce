@@ -71,11 +71,6 @@ storageClass:
   type: gp2
   volumeBindingMode: WaitForFirstConsumer
 
-pv:
-  name: db-pv-volume
-  storage: 10Gi
-  accessModes: ReadWriteMany
-  hostpath: /home/vagrant/db-pv-volume-data
 
 ####### config map ######
 
@@ -118,16 +113,16 @@ cpu:
     default:
       cpu: "300m"
     defaultRequest:
-      cpu: "250m"
+      cpu: "100m"
     type: Container
 
 memory:
   name: mem-limit-range
   limits:
     default:
-      memory: "500Mi"
+      memory: "300Mi"
     defaultRequest:
-      memory: "256Mi"
+      memory: "100Mi"
     type: Container
 
 ### network policy
