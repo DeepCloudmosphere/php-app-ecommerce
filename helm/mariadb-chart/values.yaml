@@ -60,7 +60,7 @@ volumeMounts:
 ####### PersistentVolumeClaim ############
 pvclaim:
   name: ebs-sc-claim
-  storage: 4Gi
+  storage: 3Gi
   accessModes: ReadWriteOnce #ReadWriteMany
 
 ####### storage class
@@ -110,16 +110,16 @@ cpu:
   name: cpu-limit-range
   limits:
     default:
-      cpu: "300m"
-    defaultRequest:
       cpu: "100m"
+    defaultRequest:
+      cpu: "50m"
     type: Container
 
 memory:
   name: mem-limit-range
   limits:
     default:
-      memory: "500Mi"
+      memory: "200Mi"
     defaultRequest:
       memory: "100Mi"
     type: Container
