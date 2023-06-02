@@ -122,7 +122,7 @@ service:
 ########### Ingress #######################
 
 ingress:
-  create: false
+  create: true
   namespace: ingress-nginx
   name: ingress-php
   class: "nginx"

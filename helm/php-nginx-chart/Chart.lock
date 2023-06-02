@@ -1,6 +1,6 @@
 dependencies:
-- name: php-mariadb-kops-chart
+- name: php-mariadb-ebs-chart
   repository: https://deepcloudmosphere.github.io/helm-charts/
-  version: 0.1.3
-digest: sha256:c7f0bb0e5188a17a38309a0a8c11e2541ef5ac7c013161017be2d9b2fcb15c85
-generated: "2023-05-31T16:54:04.187664687Z"
+  version: 0.1.6
+digest: sha256:73ae06a4a0c03805179384c19986bfd7446ba26a11b504ced990aac9822f0d7d
+generated: "2023-06-02T19:57:16.45014+05:30"
