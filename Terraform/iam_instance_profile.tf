@@ -1,4 +1,4 @@
-# Web App 
+# Ansible
 
 resource "aws_iam_instance_profile" "ansible" {
   name = "ansible"
@@ -24,7 +24,8 @@ resource "aws_iam_role" "ansible" {
 
   managed_policy_arns = [aws_iam_policy.ecr-access.arn,
                         aws_iam_policy.ec2-access.arn,
-                        aws_iam_policy.s3-access.arn]
+                        aws_iam_policy.s3-access.arn,
+                        aws_iam_policy.secrets-access.arn]
 }
 
 

@@ -7,7 +7,7 @@ resource "aws_instance" "default" {
     device_index = var.device-index
     network_interface_id = var.network-interface-id
   }
-  
+
   tags = {
     Name = var.name
   }

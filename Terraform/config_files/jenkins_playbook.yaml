@@ -1,0 +1,32 @@
+- name: "Setup jenkins server"
+  hosts: jenkins
+  become: true
+  tasks:
+    - name: "update jenkins server"
+      command: apt update
+
+    - name: "Install depedencies(java)"
+      apt:
+        name: openjdk-11-jre
+        state: present
+
+    - name: Add an Apt signing key, uses whichever key is at the URL
+      shell: curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | sudo tee /usr/share/keyrings/jenkins-keyring.asc > /dev/null
+      become: yes
+
+    - name: Add an Apt signing key, uses whichever key is at the URL
+      shell: echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
+      become: yes
+
+    - name: "Install jenkins"
+      apt:
+        name: jenkins
+        state: present
+
+    - name: "Ensure systemd daemon reloaded"
+      command: systemctl daemon-reload
+
+    - name: "Ensure Jenkins service is enabled and started"
+      service:
+        name: jenkins
+        state: started

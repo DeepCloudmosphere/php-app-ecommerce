@@ -27,4 +27,3 @@ variable "network-interface-id" {
 variable "device-index" {
   type = number
 }
-

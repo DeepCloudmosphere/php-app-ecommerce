@@ -1,0 +1,73 @@
+- name: "Setup localhost for CI/CD"
+  hosts: localhost
+  connection: local
+  become: true
+  tasks:
+    - name: Install packages that allow apt to be used over HTTPS
+      apt:
+        name: "{{ packages }}"
+        state: present
+        update_cache: yes
+      vars:
+        packages:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gnupg-agent
+          - software-properties-common
+
+    - name: Add an apt signing key for Docker
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add apt repository for stable version
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable
+        state: present
+
+    - name: Install docker and its dependecies
+      apt:
+        name: "{{ packages }}"
+        state: present
+        update_cache: yes
+      vars:
+        packages:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+
+    - name: Add an apt signing key for Kubernetes
+      apt_key:
+        url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+        state: present
+
+    - name: Adding apt repository for Kubernetes
+      apt_repository:
+        repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
+        state: present
+        filename: kubernetes.list
+
+    - name: Install Kubectl
+      apt:
+        name: "{{ packages }}"
+        state: present
+        update_cache: yes
+      vars:
+        packages:
+          - kubectl
+
+    - name: Install helm if not exists
+      unarchive:
+        src: https://get.helm.sh/helm-v3.11.0-linux-amd64.tar.gz
+        dest: /usr/local/bin
+        extra_opts: "--strip-components=1"
+        owner: root
+        group: root
+        mode: 0755
+        remote_src: true
+      args:
+        creates: /usr/local/bin/helm
+
+    - name: "Add kubeconfig file of eks cluster"
+      shell: aws eks --region us-east-1 update-kubeconfig --name demo
