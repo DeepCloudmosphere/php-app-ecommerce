@@ -4,9 +4,9 @@ pipeline{
         label "ansible"
     }
     stages{
-        stage("A"){
+        stage("Ansible"){
             steps{
-                echo "========executing A and B========" > /home/ubuntu/saaleeee
+                echo "========executing A and B========"
             }
             post{
                 always{
