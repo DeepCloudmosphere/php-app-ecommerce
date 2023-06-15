@@ -1,10 +1,12 @@
 pipeline{
 
- agent any
+    agent{
+        label "ansible"
+    }
     stages{
         stage("A"){
             steps{
-                echo "========executing A========"
+                echo "========executing A and B========" > /home/ubuntu/saaleeee
             }
             post{
                 always{
