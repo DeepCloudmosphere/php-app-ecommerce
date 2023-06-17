@@ -69,5 +69,10 @@
       args:
         creates: /usr/local/bin/helm
 
+    - name: "Install depedencies(java) for work as slave of jenkins master"
+      apt:
+        name: openjdk-11-jre
+        state: present
+
     - name: "Add kubeconfig file of eks cluster"
       shell: aws eks --region us-east-1 update-kubeconfig --name demo
