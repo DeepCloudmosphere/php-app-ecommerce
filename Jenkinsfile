@@ -25,7 +25,7 @@ pipeline {
     }
     stage("Deploy to EKS Cluster") {
       steps {
-        echo 'Deploy release to production
+        echo 'Deploy release to production'
         script {
           sh """
           echo "Hello World"
