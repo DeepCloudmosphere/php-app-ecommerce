@@ -7,7 +7,7 @@ pipeline {
     environment {
         AWS_ACCOUNT_ID="074548180348"
         AWS_DEFAULT_REGION="us-east-1"
-        WORKSPACE="${env.WORKSPACE}"
+        // WORKSPACE="${env.WORKSPACE}"
         IMAGE_REPO_NAME="php-web-app"
         GIT_COMMIT_HASH = sh (script: "git log -n 1 --pretty=format:'%H'", returnStdout: true) 
         REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
