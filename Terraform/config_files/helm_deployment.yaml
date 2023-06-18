@@ -12,7 +12,7 @@
 
     - name: "install helm chart if not exists"
       become: yes
-      shell: "helm install --set image.php.repository={{ lookup('env','REPOSITORY_URI') }} --set image.php.tag={{ lookup('env','GIT_COMMIT_HASH') }} php-e-commerce {{ lookup('env','WORKSPACE') }}/helm/php-nginx-chart/ "
+      shell: "helm install --set image.php.repository={{ lookup('env','REPOSITORY_URI') }} --set image.php.tag={{ lookup('env','GIT_COMMIT_HASH') }} php {{ lookup('env','WORKSPACE') }}/helm/php-nginx-chart/ "
       when: release.stdout | length ==  0
 
     - name: "install ingress controller if not exists"
@@ -22,5 +22,5 @@
 
     - name: "upgrading helm chart"
       become: yes
-      shell: "helm upgrade --set image.php.repository={{ lookup('env','REPOSITORY_URI') }} --set image.php.tag={{ lookup('env','GIT_COMMIT_HASH') }} php-e-commerce {{ lookup('env','WORKSPACE') }}/helm/php-nginx-chart/"
+      shell: "helm upgrade --set image.php.repository={{ lookup('env','REPOSITORY_URI') }} --set image.php.tag={{ lookup('env','GIT_COMMIT_HASH') }} php {{ lookup('env','WORKSPACE') }}/helm/php-nginx-chart/"
       when: release.stdout | length > 0
