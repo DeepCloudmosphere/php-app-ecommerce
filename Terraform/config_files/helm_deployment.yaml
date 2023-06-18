@@ -10,11 +10,6 @@
       debug:
         msg: "{{ release.stdout }}"
 
-    - name: "install helm chart if not exists"
-      become: yes
-      shell: "helm install php ${WORKSPACE}/helm/php-nginx-chart/"
-      when: release.stdout | length ==  0
-
     - name: "workspace"
       become: yes
       shell: "echo ${WORKSPACE} >/home/ubuntu/work"
@@ -26,6 +21,11 @@
     - name: "taggit"
       become: yes
       shell: "echo ${GIT_COMMIT_HASH} >/home/ubuntu/gittag"
+
+    - name: "install helm chart if not exists"
+      become: yes
+      shell: "helm install php ${WORKSPACE}/helm/php-nginx-chart/"
+      when: release.stdout | length ==  0
 
     - name: "install ingress controller if not exists"
       become: yes
