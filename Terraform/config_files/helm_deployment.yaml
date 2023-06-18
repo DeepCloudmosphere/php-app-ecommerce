@@ -12,7 +12,7 @@
 
     - name: "install helm chart if not exists"
       become: yes
-      shell: "helm install --set image.php.repository={{ lookup('env','REPOSITORY_URI') }} --set image.php.tag={{ lookup('env','GIT_COMMIT_HASH') }} php {{ lookup('env','WORKSPACE') }}/helm/php-nginx-chart/  > kk1"
+      shell: "helm install --set image.php.repository={{ lookup('env','REPOSITORY_URI') }} --set image.php.tag={{ lookup('env','GIT_COMMIT_HASH') }} php {{ lookup('env','WORKSPACE') }}/helm/php-nginx-chart/ --dry-run > kk1"
       when: release.stdout | length ==  0
 
     # - name: "install ingress controller if not exists"
