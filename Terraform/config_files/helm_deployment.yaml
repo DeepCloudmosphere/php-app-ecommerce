@@ -11,9 +11,11 @@
         msg: "{{ release.stdout }}"
 
     - name: "install helm chart if not exists"
+      become: yes
       shell: "helm install php ${WORKSPACE}/helm/php-nginx-chart/"
       when: release.stdout | length ==  0
 
     - name: "upgrading helm chart"
+      become: yes
       shell: "helm upgrade --set image.php.repository=${REPOSITORY_URI} --set image.php.tag=${GIT_COMMIT_HASH} php ${WORKSPACE}/helm/php-nginx-chart/"
       when: release.stdout | length > 0
