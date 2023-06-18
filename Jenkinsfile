@@ -55,12 +55,12 @@ pipeline {
                          
                         // Send Slack notification with the result of the tests
                         sh"""
-                            curl https://slack.com/api/chat.postMessage -X POST -d channel=#ci-cd-pipeline -d text='Commit hash: eefce28874e0ce2c0c2ef35462dc37790cc3cb73 -- Build has successfully completed and pushed to ECR repository' -d token='$SLACK_TOKEN'
+                            curl https://slack.com/api/chat.postMessage -X POST -d channel=#ci-cd-pipeline -d text='${textMessage}' -d token='${SLACK_TOKEN}'
                         """ 
                         if(inError) {
                           // Send an error signal to stop the pipeline
-                          error("Failed integration tests")
-                        }
+                          error("Failed build image")
+                        }  
                      }
             
         }
@@ -80,12 +80,27 @@ pipeline {
                        sh """
                           ansible-playbook  /home/ubuntu/helm_deployment.yaml
                        """
-                            
+                        // Fill the slack message with the success message
+                        textMessage = "Commit hash: $GIT_COMMIT_HASH -- Deployment has  successfully to EKS(prod)"
+                        inError = false 
+                        
                     } catch(e) {
 
+                        echo "$e"
+                        // Fill the slack message with the success message
+                        textMessage = "Commit hash: $GIT_COMMIT_HASH -- Deployment to EKS(prod) has failed"
+                        inError = true
 
                     } finally {
-                         
+
+                        // Send Slack notification with the result of the tests
+                        sh"""
+                            curl https://slack.com/api/chat.postMessage -X POST -d channel=#ci-cd-pipeline -d text='${textMessage}' -d token='${SLACK_TOKEN}'
+                        """ 
+                        if(inError) {
+                          // Send an error signal to stop the pipeline
+                          error("Failed deployment")
+                        }  
                          
                     }
               }
