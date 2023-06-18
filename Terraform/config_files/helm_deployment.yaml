@@ -15,10 +15,10 @@
       shell: "helm install php {{ lookup('env','WORKSPACE') }}/helm/php-nginx-chart/"
       when: release.stdout | length ==  0
 
-    - name: "install ingress controller if not exists"
-      become: yes
-      shell: "kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.5.1/deploy/static/provider/cloud/deploy.yaml"
-      when: release.stdout | length ==  0
+    # - name: "install ingress controller if not exists"
+    #   become: yes
+    #   shell: "kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.5.1/deploy/static/provider/cloud/deploy.yaml"
+    #   when: release.stdout | length ==  0
 
     - name: "upgrading helm chart"
       become: yes
