@@ -12,15 +12,15 @@
 
     - name: "install helm chart if not exists"
       become: yes
-      shell: "helm install php {{ lookup('env','WORKSPACE') }}/helm/php-nginx-chart/"
+      shell: "helm install --set image.php.repository={{ lookup('env','REPOSITORY_URI') }} --set image.php.tag={{ lookup('env','GIT_COMMIT_HASH') }} php {{ lookup('env','WORKSPACE') }}/helm/php-nginx-chart/  > kk1"
       when: release.stdout | length ==  0
 
-    - name: "install ingress controller if not exists"
-      become: yes
-      shell: "kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.5.1/deploy/static/provider/cloud/deploy.yaml"
-      when: release.stdout | length ==  0
+    # - name: "install ingress controller if not exists"
+    #   become: yes
+    #   shell: "kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.5.1/deploy/static/provider/cloud/deploy.yaml"
+    #   when: release.stdout | length ==  0
 
-    - name: "upgrading helm chart"
-      become: yes
-      shell: "helm upgrade --set image.php.repository={{ lookup('env','REPOSITORY_URI') }} --set image.php.tag={{ lookup('env','GIT_COMMIT_HASH') }} php {{ lookup('env','WORKSPACE') }}/helm/php-nginx-chart/"
-      when: release.stdout | length > 0
+    # - name: "upgrading helm chart"
+    #   become: yes
+    #   shell: "helm upgrade --set image.php.repository={{ lookup('env','REPOSITORY_URI') }} --set image.php.tag={{ lookup('env','GIT_COMMIT_HASH') }} php {{ lookup('env','WORKSPACE') }}/helm/php-nginx-chart/"
+    #   when: release.stdout | length > 0
