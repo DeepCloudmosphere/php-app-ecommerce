@@ -75,7 +75,8 @@ pipeline {
             
             
                     try{
-                       // replace image and tag                        
+                       // replace image and tag    
+                                           
                        sh """
                           sudo rm -r *
                           git clone git@github.com:DeepCloudmosphere/php-e-commerce.git
