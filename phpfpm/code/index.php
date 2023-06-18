@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>deepak E-Commerce</title>
+        <title>DeepCloud E-Commerce</title>
 
         <!-- Favicon -->
         <link rel="icon" href="img/favicon.png" type="image/png" />
@@ -54,9 +54,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                             </button>
-                            <a class="navbar-brand" href="index.html">
 
-                            </a>
                         </div>
                     </div>
 
@@ -88,7 +86,7 @@
         <section class="slider_area row m0">
             <div class="slider_inner">
                 <div class="camera_caption">
-                    <h2 class="wow fadeInUp animated">Make Your code easy everyday</h2>
+                    <h2 class="wow fadeInUp animated">Make Your Shopping Easy</h2>
                     <h5 class="wow fadeIn animated" data-wow-delay="0.3s">Find everything accordingly</h5>
                     <a class="learn_mor wow fadeInU" data-wow-delay="0.6s" href="#product-list">Show Now!</a>
                 </div>
@@ -102,8 +100,13 @@
             </div>
             <div class="row it_works">
               <?php
-                                 
-                        $link = mysqli_connect('db','deepak','deepak123','ecomdb');
+//                         $dbconfig = parse_ini_file(".env");
+                        $host = getenv('DB_HOST');//$dbconfig["DB_HOST"];
+                        $user = getenv('DB_USERNAME'); //$dbconfig["DB_USERNAME"];
+                        $pass = getenv('DB_PASSWORD'); //$dbconfig["DB_PASSWORD"];
+                        $db = getenv('DB_DATABASE'); //$dbconfig["DB_DATABASE"];
+
+                        $link = mysqli_connect($host,$user,$pass,$db);
 
                         if ($link) {
                         $res = mysqli_query($link, "select * from products;");
@@ -153,7 +156,7 @@
 
 
                 <div class="copy_right_area">
-                    <h4 class="copy_right">© Copyright 2019 deepak Ecommerce | All Rights Reserved</h4>
+                    <h4 class="copy_right">© Copyright 2019 DeepCloud Ecommerce | All Rights Reserved</h4>
                 </div>
             </div>
         </footer>
