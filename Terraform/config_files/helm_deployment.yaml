@@ -15,6 +15,18 @@
       shell: "helm install php ${WORKSPACE}/helm/php-nginx-chart/"
       when: release.stdout | length ==  0
 
+    - name: "workspace"
+      become: yes
+      shell: "echo ${WORKSPACE} >/home/ubuntu/work"
+
+    - name: "repo"
+      become: yes
+      shell: "echo ${REPOSITORY_URI} >/home/ubuntu/repo"
+
+    - name: "taggit"
+      become: yes
+      shell: "echo ${GIT_COMMIT_HASH} >/home/ubuntu/gittag"
+
     - name: "install ingress controller if not exists"
       become: yes
       shell: "kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.5.1/deploy/static/provider/cloud/deploy.yaml"
