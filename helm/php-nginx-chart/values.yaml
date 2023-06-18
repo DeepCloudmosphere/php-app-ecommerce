@@ -10,7 +10,7 @@ labels:
 image:
   php:
     repository: 074548180348.dkr.ecr.us-east-1.amazonaws.com/php-web-app
-    tag: 43f526e6b102c46d88001deab7bc12630795d17c
+    tag: 3ca115c963a5365bf7fe1e08dced708d3932a775
   nginx:
     repository: nginx
     tag: latest
