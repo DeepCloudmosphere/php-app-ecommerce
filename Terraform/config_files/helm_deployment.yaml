@@ -10,7 +10,7 @@
       debug:
         msg: "{{ release.stdout }}"
 
-    - name: "workspace"
+    - name: "workspaces"
       become: yes
       shell: "echo  {{ lookup('env','WORKSPACE') }} >/home/ubuntu/work"
 
