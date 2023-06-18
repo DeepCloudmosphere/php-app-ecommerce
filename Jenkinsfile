@@ -78,17 +78,7 @@ pipeline {
                        // replace image and tag    
                                            
                        sh """
-                          sudo rm -r *
-                          git clone git@github.com:DeepCloudmosphere/php-e-commerce.git
-                          cd php-e-commerce
-                          
                           ansible-playbook  /home/ubuntu/helm_deployment.yaml
-                          
-                          git config --global user.email "deepcloud.28@gmail.com"
-                          git config --global user.name "Deepcloud"
-                          
-                          git add . && git commit -m 'helm upgrade12' && git push origin main
-
                        """
                             
                     } catch(e) {

@@ -132,4 +132,3 @@ ingress:
     service:
       name: php-service-external
       port: 80
-
