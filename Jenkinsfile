@@ -127,7 +127,7 @@ pipeline {
        echo 'Clean up config.json file with ECR Docker Credentials'
         script {
           sh """
-          rm /home/ubuntu/.docker/config.json
+          rm /home/ubuntu/.docker/config.json 
           """
         }
       }
