@@ -112,8 +112,22 @@ pipeline {
       steps {
         echo 'Clean up local docker images'
         script {
+              sh """
+              # Change the :latest with the current ones
+
+              docker tag $REPOSITORY_URI:$GIT_COMMIT_HASH  $REPOSITORY_URI:latest
+
+              # Remove the images
+              docker image rm $REPOSITORY_URI:$GIT_COMMIT_HASH
+              
+              # Remove dangling images
+              docker image prune -f
+              """
+        }
+       echo 'Clean up config.json file with ECR Docker Credentials'
+        script {
           sh """
-          echo "Hello Worldcw"
+          rm /home/ubuntu/.docker/config.json
           """
         }
       }
