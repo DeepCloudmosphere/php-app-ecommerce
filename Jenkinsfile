@@ -81,7 +81,7 @@ pipeline {
                           git clone git@github.com:DeepCloudmosphere/php-e-commerce.git
                           cd php-e-commerce
                           
-                          ansible-playbook -i /home/ubuntu/inventory.txt /home/ubuntu/deployment.yaml
+                          ansible-playbook  /home/ubuntu/deployment.yaml
                           
                           git config --global user.email "deepcloud.28@gmail.com"
                           git config --global user.name "Deepcloud"
