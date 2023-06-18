@@ -12,7 +12,7 @@ pipeline {
         GIT_COMMIT_HASH = sh (script: "git log -n 1 --pretty=format:'%H'", returnStdout: true) 
         REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
        //  When using returnStdout a trailing whitespace will be appended to the returned string. Use .trim() to remove this.
-        SLACK_TOKEN='xoxb-5436971626113-5424293815843-yWCMtFv07RoZjmia7eKXZTI0' //sh (script: "aws secretsmanager get-secret-value --secret-id jenkins --region us-east-1 | python3 -c \"import sys;import json;print(json.loads(json.loads(sys.stdin.read())['SecretString'])['slackToken'])\"", returnStdout: true).trim()
+        SLACK_TOKEN='xoxb-5436971626113-5424293815843-IsZbpszr39wFZDso6pUvlegP' //sh (script: "aws secretsmanager get-secret-value --secret-id jenkins --region us-east-1 | python3 -c \"import sys;import json;print(json.loads(json.loads(sys.stdin.read())['SecretString'])['slackToken'])\"", returnStdout: true).trim()
          
         
     } 
