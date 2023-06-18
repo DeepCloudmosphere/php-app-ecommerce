@@ -89,15 +89,23 @@ fi
 
 # download private key
 
+## for ubuntu
 aws secretsmanager get-secret-value --secret-id jenkins --region us-east-1 | python3 -c "import sys;import json;print(json.loads(json.loads(sys.stdin.read())['SecretString'])['private'])" > /home/ubuntu/.ssh/jenkins
+## for root
+aws secretsmanager get-secret-value --secret-id jenkins --region us-east-1 | python3 -c "import sys;import json;print(json.loads(json.loads(sys.stdin.read())['SecretString'])['private'])" > ~/.ssh/jenkins
 
 # remove ' in jenkins key
 
 sed -i "s/'//g" /home/ubuntu/.ssh/jenkins
 
+# root
+sed -i "s/'//g" ~/.ssh/jenkins
+
 # change ownership of key
 
 chown ubuntu: /home/ubuntu/.ssh/jenkins
+# root
+chown root: ~/.ssh/jenkins
 
 # create ansible configuration file to ignore host_key_checking
 
@@ -121,6 +129,83 @@ sed -i '/^127\.0\.0\.1\s/s/$/ '"ansible-controller"'/' /etc/hosts
 # add hostname in /etc/hostname file
 
 hostnamectl set-hostname ansible-controller
+
+
+
+
+
+# setup keys 
+
+mkdir ssh_keys && cd ssh_keys 
+
+# download private and public  key for authentication at the time of ci/cd
+
+
+aws secretsmanager get-secret-value --secret-id jenkins --region us-east-1 | python3 -c "import sys;import json;print(json.loads(json.loads(sys.stdin.read())['SecretString'])['private'])" > jenkins.key
+
+aws secretsmanager get-secret-value --secret-id jenkins --region us-east-1 | python3 -c "import sys;import json;print(json.loads(json.loads(sys.stdin.read())['SecretString'])['public'])" > jenkins.pem
+
+aws secretsmanager get-secret-value --secret-id ansible --region us-east-1 | python3 -c "import sys;import json;print(json.loads(json.loads(sys.stdin.read())['SecretString'])['private'])" > ansible.key
+
+
+# remove ' in the keys
+
+sed -i "s/'//g" jenkins.key
+sed -i "s/'//g" jenkins.pem
+sed -i "s/'//g" ansible.key
+
+
+
+# change ownership of key
+
+chown ubuntu: jenkins.key
+chown ubuntu: jenkins.pem
+chown ubuntu: ansible.key
+
+# create github configuration file to authenticate it
+
+# for ubuntu
+cat << EOT > /home/ubuntu/.ssh/config 
+Host github.com
+ HostName github.com
+ IdentityFile /home/ubuntu/.ssh/jenkins
+EOT
+
+# for root
+cat << EOT > ~/.ssh/config 
+Host github.com
+ HostName github.com
+ IdentityFile ~/.ssh/jenkins
+EOT
+
+
+# the permissions on your IdentityFile must 400 otherwise SSH will reject, in a not clearly explicit manner, SSH keys that are too readable. It will just look like a credential rejection.
+
+chmod 400 /home/ubuntu/.ssh/jenkins
+# root
+chmod 400 ~/.ssh/jenkins
+
+
+# change permision of config file
+chmod 600 /home/ubuntu/.ssh/config
+# root
+chmod 600 ~/.ssh/config
+
+
+
+# change ownership of file of ubuntu user
+
+chown ubuntu: /home/ubuntu/.ssh/config
+
+chown ubuntu: /home/ubuntu/.ssh/jenkins
+
+# change ownership of file of root user
+
+chown root: ~/.ssh/config
+
+chown root: ~/.ssh/jenkins
+
+
 
 
 # reboot

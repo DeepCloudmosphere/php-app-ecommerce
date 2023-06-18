@@ -37,6 +37,12 @@
           - docker-ce-cli
           - containerd.io
 
+    - name: adding existing user ubuntu to group docker
+      user:
+        name: ubuntu
+        groups: docker
+        append: yes
+
     - name: Add an apt signing key for Kubernetes
       apt_key:
         url: https://packages.cloud.google.com/apt/doc/apt-key.gpg

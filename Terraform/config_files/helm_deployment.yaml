@@ -1,0 +1,19 @@
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: "helm release output"
+      become: yes
+      register: release
+      shell: "helm list -q | tr '\\n' ','"
+
+    - name: "test"
+      debug:
+        msg: "{{ release.stdout }}"
+
+    - name: "install helm chart if not exists"
+      shell: "helm install php /home/ubuntu/workspace/testcicd/php-e-commerce/helm/php-nginx-chart"
+      when: release.stdout | length ==  0
+
+    - name: "upgrading helm chart"
+      shell: "helm upgrade php1 /home/ubuntu/workspace/testcicd/php-e-commerce/helm/php-nginx-chart"
+      when: release.stdout | length > 0

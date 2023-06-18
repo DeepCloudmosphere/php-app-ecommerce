@@ -1,0 +1,24 @@
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: "Searching for a old image "
+      become: yes
+      register: old_image
+      shell: 'grep -i repository  ${WORKSPACE}/php-e-commerce/helm/php-nginx-chart/values.yaml  | head -n  1 | cut -d ":" -f 2 | cut -d " " -f 2'
+
+    - name: "Searching for a old image tag "
+      become: yes
+      register: old_tag
+      shell: 'grep -i tag  ${WORKSPACE}/php-e-commerce/helm/php-nginx-chart/values.yaml | head -n  1 | cut -d ":" -f 2 | cut -d " " -f 2'
+
+    - name: Replace old image
+      replace:
+        path: /home/ubuntu/workspace/testcicd/php-e-commerce/helm/php-nginx-chart/values.yaml
+        replace: "{{ lookup('env','REPOSITORY_URI') }}"
+        regexp: "{{ old_image.stdout }}"
+
+    - name: Replace old tag
+      replace:
+        path: /home/ubuntu/workspace/testcicd/php-e-commerce/helm/php-nginx-chart/values.yaml
+        replace: "{{ lookup('env','GIT_COMMIT_HASH') }}"
+        regexp: "{{ old_tag.stdout }}"
