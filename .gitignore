@@ -1,4 +1,9 @@
-.terraform*
+Dockerfile.test
+node_modules
+.gitignore
+.git
+Dockerfile
+Terraform/*
 
-Terraform/terraform.tfstate*
-Terraform/terraform.tfstate.backup*
+terraform.tfstate
+.terraform*
