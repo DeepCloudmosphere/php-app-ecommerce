@@ -17,6 +17,6 @@ resource "aws_secretsmanager_secret" "jenkins" {
 }
 
 resource "aws_secretsmanager_secret_version" "jenkins" {
-  secret_id = aws_secretsmanager_secret.jenkins.id
+  secret_id = aws_secretsmanager_secret.jenkins.id 
   secret_string = jsonencode(var.jenkinsSecrets)
 }
