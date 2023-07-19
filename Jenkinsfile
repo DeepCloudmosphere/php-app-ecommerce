@@ -55,7 +55,7 @@ pipeline {
                          
                         // Send Slack notification with the result of the tests
                         sh"""
-                            curl https://slack.com/api/chat.postMessage -X POST -d channel=#ci-cd-pipeline -d text='${textMessage}' -d token='${SLACK_TOKEN}'
+                            curl https://slack.com/api/chat.postMessage -X POST -d channel=#php-ci-cd -d text='${textMessage}' -d token='${SLACK_TOKEN}'
                         """ 
                         if(inError) {
                           // Send an error signal to stop the pipeline
@@ -95,7 +95,7 @@ pipeline {
 
                         // Send Slack notification with the result of the tests
                         sh"""
-                            curl https://slack.com/api/chat.postMessage -X POST -d channel=#ci-cd-pipeline -d text='${textMessage}' -d token='${SLACK_TOKEN}'
+                            curl https://slack.com/api/chat.postMessage -X POST -d channel=#php-ci-cd -d text='${textMessage}' -d token='${SLACK_TOKEN}'
                         """ 
                         if(inError) {
                           // Send an error signal to stop the pipeline
