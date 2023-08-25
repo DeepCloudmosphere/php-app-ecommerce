@@ -71,15 +71,17 @@ pipeline {
     stage("Deploy to EKS Cluster") {
       steps {
         echo 'Deploy release to production'
+                                environment {
+
+                          URL = sh (script: 'aws elb describe-load-balancers | grep -i "CanonicalHostedZoneName" | head -n 1 | cut  -d ":" -f 2 | cut -d \'"\' -f 2', returnStdout: true) 
+                        }
+                        
         script {
             
             
                     try{
                        // replace image and tag 
-                        environment {
 
-                          URL = sh (script: 'aws elb describe-load-balancers | grep -i "CanonicalHostedZoneName" | head -n 1 | cut  -d ":" -f 2 | cut -d \'"\' -f 2', returnStdout: true) 
-                        }
                                            
                        sh """
                           ansible-playbook  /home/ubuntu/helm_deployment.yaml
