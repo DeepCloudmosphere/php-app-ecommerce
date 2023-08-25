@@ -75,13 +75,18 @@ pipeline {
             
             
                     try{
-                       // replace image and tag    
+                       // replace image and tag 
+                        environment {
+
+                          URL=  sh (script: 'aws elb describe-load-balancers | grep -i "CanonicalHostedZoneName" | head -n 1 | cut  -d ":" -f 2 | cut -d \'"\' -f 2', returnStdout: true) 
+                        }
                                            
                        sh """
                           ansible-playbook  /home/ubuntu/helm_deployment.yaml
                        """
                         // Fill the slack message with the success message
-                        textMessage = "Commit hash: $GIT_COMMIT_HASH -- Deployment has  successfully to EKS(prod)"
+                        textMessage = "Commit hash: $GIT_COMMIT_HASH -- Deployment has  successfully to EKS(prod) \
+                        You could access application by using http://$URL url "
                         inError = false 
 
                     } catch(e) {
