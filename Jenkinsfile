@@ -87,7 +87,7 @@ pipeline {
                        """
                         // Fill the slack message with the success message
                         textMessage = "Commit hash: $GIT_COMMIT_HASH -- Deployment has  successfully to EKS(prod) \
-                        You could access application by using http://$URL url "
+                        You could access application by using http://$APP_URL url "
                         inError = false 
 
                     } catch(e) {
