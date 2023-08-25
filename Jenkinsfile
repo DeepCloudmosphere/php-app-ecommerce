@@ -73,9 +73,9 @@ pipeline {
         echo 'Deploy release to production'
                                 environment {
 
-                          URL = sh (script: 'aws elb describe-load-balancers | grep -i "CanonicalHostedZoneName" | head -n 1 | cut  -d ":" -f 2 | cut -d \'"\' -f 2', returnStdout: true) 
+                          GIT_COMMIT_HASH = sh (script: "git log -n 1 --pretty=format:'%H'", returnStdout: true) 
                         }
-                        
+
         script {
             
             
