@@ -5,7 +5,7 @@ pipeline {
     }
         
     environment {
-        AWS_ACCOUNT_ID="074548180348"
+        AWS_ACCOUNT_ID="975263414773"
         AWS_DEFAULT_REGION="us-east-1"
         WORKSPACE="${env.WORKSPACE}"
         IMAGE_REPO_NAME="php-web-app"
