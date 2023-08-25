@@ -69,13 +69,12 @@ pipeline {
     }
     
     stage("Deploy to EKS Cluster") {
+      environment {
+
+          GIT_COMMIT_HASH = sh (script: "git log -n 1 --pretty=format:'%H'", returnStdout: true) 
+      }
       steps {
         echo 'Deploy release to production'
-                                environment {
-
-                          GIT_COMMIT_HASH = sh (script: "git log -n 1 --pretty=format:'%H'", returnStdout: true) 
-                        }
-
         script {
             
             
