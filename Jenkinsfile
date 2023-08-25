@@ -78,7 +78,7 @@ pipeline {
                        // replace image and tag 
                         environment {
 
-                          URL=  sh (script: 'aws elb describe-load-balancers | grep -i "CanonicalHostedZoneName" | head -n 1 | cut  -d ":" -f 2 | cut -d \'"\' -f 2', returnStdout: true) 
+                          URL = sh (script: 'aws elb describe-load-balancers | grep -i "CanonicalHostedZoneName" | head -n 1 | cut  -d ":" -f 2 | cut -d \'"\' -f 2', returnStdout: true) 
                         }
                                            
                        sh """
