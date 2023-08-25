@@ -71,7 +71,7 @@ pipeline {
     stage("Deploy to EKS Cluster") {
       environment {
 
-          GIT_COMMIT_HASH = sh (script: "git log -n 1 --pretty=format:'%H'", returnStdout: true) 
+          APP_URL = sh (script: 'aws elb describe-load-balancers | grep -i "CanonicalHostedZoneName" | head -n 1 | cut  -d ":" -f 2 | cut -d \'"\' -f 2', returnStdout: true) 
       }
       steps {
         echo 'Deploy release to production'
