@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: dp-nginx-php
-  namespace: dev
+  #namespace: dev
   labels:
     name: dp-nginx-php
 spec:
