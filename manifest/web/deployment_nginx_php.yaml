@@ -54,10 +54,6 @@ spec:
             name: nginx-config
         - name: shared-files
           emptyDir: {}
-        - name: php-fpm-config
-          configMap:
-            defaultMode: 420
-            name: php-fpm-config
 
       containers:
         - name: php-ctr
@@ -75,10 +71,6 @@ spec:
           volumeMounts:
             - mountPath: /var/www/html/
               name: shared-files
-
-            - name: php-fpm-config
-              mountPath: /usr/local/etc/php-fpm.d/www.conf
-              subPath: www.conf
 
           # Important! After this container has started, the PHP files
           # in our Docker image aren't in the shared volume. We need to
@@ -128,29 +120,6 @@ spec:
           #     secretKeyRef:
           #       name: php-db-secret
           #       key: DB_DATABASE
-
-        - name: php-fpm-exporter
-          image: "quay.io/sysdig/php-fpm-exporter:v2.3.3"
-          ports:
-            - containerPort: 9253
-          env:
-            - name: PHP_FPM_WEB_LISTEN_ADDRESS
-              value: :9253
-            - name: PHP_FPM_WEB_TELEMETRY_PATH
-              value: /metrics
-            - name: PHP_FPM_SCRAPE_URI
-              value: tcp://127.0.0.1:9000/status
-            - name: PHP_FPM_FIX_PROCESS_COUNT
-              value: "false"
-            - name: PHP_FPM_LOG_LEVEL
-              value: info
-          resources:
-            limits:
-              cpu: 128m
-              memory: 128Mi
-            requests:
-              cpu: 64m
-              memory: 64Mi
 
         - name: nginx-ctr
           image: nginx
