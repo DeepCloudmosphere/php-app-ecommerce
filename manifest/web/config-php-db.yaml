@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: php-db-configmap
-  #namespace: dev
+  namespace: dev
 data:
   DB_HOST: mariadb-st-0.db-h.db.svc.cluster.local # stateless based changes
   DB_USERNAME: deepak
