@@ -181,6 +181,7 @@ spec:
           value: "false"
         - name: PHP_FPM_LOG_LEVEL
           value: info
+          
 
 
 
