@@ -23,20 +23,20 @@ containers:
     name: php-ctr
     resources:
       requests:
-        memory: "100Mi"
-        cpu: "150m"
+        memory: "50Mi"
+        cpu: "50m"
       limits:
-        cpu: "400m"
+        cpu: "500m"
         memory: "200Mi"
 
   nginx:
     name: nginx-ctr
     resources:
       requests:
-        memory: "100Mi"
-        cpu: "150m"
+        memory: "50Mi"
+        cpu: "50m"
       limits:
-        cpu: "400m"
+        cpu: "500m"
         memory: "200Mi"
   php_fpm_exporter:
     name: php-fpm-exporter
@@ -94,7 +94,7 @@ cpu:
     default:
       cpu: "300m"
     defaultRequest:
-      cpu: "50m"
+      cpu: "100m"
     type: Container
 
 mem:
