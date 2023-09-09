@@ -52,6 +52,10 @@ phpExporterenv:
   PHP_FPM_WEB_TELEMETRY_PATH: /metrics
   PHP_FPM_FIX_PROCESS_COUNT: "false"
   PHP_FPM_LOG_LEVEL: info
+  PHP_FPM_SCRAPE_URI:
+    protocol: tcp://
+    address: svc-nginx-php:9000
+    path: /status
 
 ## node affinity
 nodeAffinity:

@@ -23,10 +23,10 @@ version: 0.1.6
 # It is recommended to use it with quotes.
 appVersion: "1.16.0"
 
-# dependencies:
-#   - name: php-mariadb-ebs-chart
-#     version: "0.1.6"
-#     repository: "https://deepcloudmosphere.github.io/helm-charts/"
+dependencies:
+  - name: php-mariadb-ebs-chart
+    version: "0.1.6"
+    repository: "https://deepcloudmosphere.github.io/helm-charts/"
 
 maintainers:
   - name: Deepak verma
