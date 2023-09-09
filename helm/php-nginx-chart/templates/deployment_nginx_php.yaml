@@ -52,9 +52,12 @@ spec:
           name: {{ .Release.Name }}-{{ .Values.configmap.nginx }}
       - name: {{ .Values.volumes.vol2 }}
         emptyDir: {}
+      - name: {{ .Values.volumes.vol3 }}
+        configMap:
+          name: {{ .Release.Name }}-{{ .Values.configmap.php_fpm }}
 
       containers:
-
+      # php_fpm
       - name: {{ .Release.Name }}-{{ .Values.containers.php.name }}
         {{- with .Values.image.php }}
         image: {{ .repository | default "nginx" }}:{{ .tag | default "latest" }}
@@ -78,6 +81,9 @@ spec:
 
         volumeMounts:
         {{- template "volumes" . }}
+        - name: {{ .Values.volumes.vol3 }}
+          mountPath: {{ .Values.volumeMounts.php_fpm.path }}
+          subPath: {{ .Values.volumeMounts.php_fpm.subpath }}
 
         # Important! After this container has started, the PHP files
         # in our Docker image aren't in the shared volume. We need to 
@@ -129,6 +135,7 @@ spec:
         #       name: php-db-secret
         #       key: DB_DATABASE
 
+      # nginx
       - name: {{ .Release.Name }}-{{ .Values.containers.nginx.name }}
         {{- with .Values.image.nginx }}
         image: {{ .repository | default "nginx" }}:{{ .tag | default "latest" }}
@@ -153,38 +160,28 @@ spec:
         {{- template "volumes" . }}
         - mountPath: {{ .Values.volumeMounts.nginxConf }}
           name: {{ .Values.volumes.vol1 }}
-        
+
       # php_fpm_exporter
-      - name: phpexporter
-        image: "quay.io/sysdig/php-fpm-exporter:v2.3.3"
+      - name: {{ .Release.Name }}-{{ .Values.containers.php_fpm_exporter.name }}
+        {{- with .Values.image.php_fpm_exporter }}
+        image: {{ .repository | default "quay.io/sysdig/php-fpm-exporter" }}:{{ .tag | default "v2.3.3" }}
+        {{- end }}
         ports:
-            - containerPort: 9253
+            - containerPort: {{ .Values.ports.php_fpm_exporter }}
+
         env:
-        - name: PHP_FPM_WEB_LISTEN_ADDRESS
-          value: 9253
-        - name: PHP_FPM_WEB_TELEMETRY_PATH
-          value: /metrics
-        - name: PHP_FPM_SCRAPE_URI
-          value: tcp://127.0.0.1:9000/status
-        - name: PHP_FPM_FIX_PROCESS_COUNT
-          value: "false"
-        - name: PHP_FPM_LOG_LEVEL
-          value: info
-
-
-        # env:
-        # {{- with .Values.env }}
-        # - name: {{ .PHP_FPM_WEB_LISTEN_ADDRESS.name }}
-        #   value: {{ .PHP_FPM_WEB_LISTEN_ADDRESS.value }}
-        # - name: {{ .PHP_FPM_WEB_TELEMETRY_PATH.name }}
-        #   value: {{ .PHP_FPM_WEB_TELEMETRY_PATH.value }}
-        # - name: {{ .PHP_FPM_SCRAPE_URI.name }}
-        #   value: {{ .PHP_FPM_SCRAPE_URI.value }}
-        # - name: {{ .PHP_FPM_FIX_PROCESS_COUNT.name }}
-        #   value: {{ .PHP_FPM_FIX_PROCESS_COUNT.value }}
-        # - name: {{ .PHP_FPM_LOG_LEVEL.name }}
-        #   value: {{ .PHP_FPM_LOG_LEVEL.value }}
-        # {{- end }}
+        {{- with .Values.env }}
+        - name: {{ .PHP_FPM_WEB_LISTEN_ADDRESS.name }}
+          value: {{ .PHP_FPM_WEB_LISTEN_ADDRESS.value }}
+        - name: {{ .PHP_FPM_WEB_TELEMETRY_PATH.name }}
+          value: {{ .PHP_FPM_WEB_TELEMETRY_PATH.value }}
+        - name: {{ .PHP_FPM_SCRAPE_URI.name }}
+          value: {{ .PHP_FPM_SCRAPE_URI.value }}
+        - name: {{ .PHP_FPM_FIX_PROCESS_COUNT.name }}
+          value: {{ .PHP_FPM_FIX_PROCESS_COUNT.value }}
+        - name: {{ .PHP_FPM_LOG_LEVEL.name }}
+          value: {{ .PHP_FPM_LOG_LEVEL.value }}
+        {{- end }}
 
 
 
