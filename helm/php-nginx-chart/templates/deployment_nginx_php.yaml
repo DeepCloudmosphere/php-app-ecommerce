@@ -168,6 +168,19 @@ spec:
         {{- end }}
         ports:
             - containerPort: {{ .Values.ports.php_fpm_exporter }}
+        # env:
+        # {{- with .Values.env }}
+        # - name: {{ .PHP_FPM_WEB_LISTEN_ADDRESS.name }}
+        #   value: {{ .PHP_FPM_WEB_LISTEN_ADDRESS.value }}
+        # - name: {{ .PHP_FPM_WEB_TELEMETRY_PATH.name }}
+        #   value: {{ .PHP_FPM_WEB_TELEMETRY_PATH.value }}
+        # - name: {{ .PHP_FPM_SCRAPE_URI.name }}
+        #   value: {{ .PHP_FPM_SCRAPE_URI.value }}
+        # - name: {{ .PHP_FPM_FIX_PROCESS_COUNT.name }}
+        #   value: {{ .PHP_FPM_FIX_PROCESS_COUNT.value }}
+        # - name: {{ .PHP_FPM_LOG_LEVEL.name }}
+        #   value: {{ .PHP_FPM_LOG_LEVEL.value }}
+        # {{- end }}
         env:
         {{- with .Values.env }}
         - name: {{ .PHP_FPM_WEB_LISTEN_ADDRESS.name }}
