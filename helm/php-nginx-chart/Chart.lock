@@ -1,0 +1,6 @@
+dependencies:
+- name: php-mariadb-ebs-chart
+  repository: https://deepcloudmosphere.github.io/helm-charts/
+  version: 0.1.6
+digest: sha256:73ae06a4a0c03805179384c19986bfd7446ba26a11b504ced990aac9822f0d7d
+generated: "2023-06-02T19:57:16.45014+05:30"
