@@ -94,7 +94,7 @@ cpu:
     default:
       cpu: "300m"
     defaultRequest:
-      cpu: "100m"
+      cpu: "50m"
     type: Container
 
 mem:
