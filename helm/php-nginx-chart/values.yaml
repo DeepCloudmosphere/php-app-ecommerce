@@ -48,7 +48,7 @@ ports:
   php_fpm_exporter: 9253
 
 phpExporterenv:
-  PHP_FPM_WEB_LISTEN_ADDRESS: "9253"
+  PHP_FPM_WEB_LISTEN_ADDRESS: ":9253"
   PHP_FPM_WEB_TELEMETRY_PATH: /metrics
   PHP_FPM_FIX_PROCESS_COUNT: "false"
   PHP_FPM_LOG_LEVEL: info
