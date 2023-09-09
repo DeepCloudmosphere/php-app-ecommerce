@@ -82,7 +82,7 @@ cpu:
   name: cpu-limit-range
   limits:
     default:
-      cpu: "600m"
+      cpu: "400m"
     defaultRequest:
       cpu: "80m"
     type: Container
