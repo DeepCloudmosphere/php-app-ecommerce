@@ -161,6 +161,18 @@ spec:
         {{- end }}
         ports:
             - containerPort: {{ .Values.ports.php_fpm_exporter }}
+        env:
+        - name: PHP_FPM_WEB_LISTEN_ADDRESS
+          value: 9253
+        - name: PHP_FPM_WEB_TELEMETRY_PATH
+          value: /metrics
+        - name: PHP_FPM_SCRAPE_URI
+          value: tcp://127.0.0.1:9000/status
+        - name: PHP_FPM_FIX_PROCESS_COUNT
+          value: "false"
+        - name: PHP_FPM_LOG_LEVEL
+          value: info
+
 
         # env:
         # {{- with .Values.env }}
