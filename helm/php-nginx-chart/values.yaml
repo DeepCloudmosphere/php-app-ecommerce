@@ -9,14 +9,11 @@ labels:
 
 image:
   php:
-    repository: 975263414773.dkr.ecr.us-east-1.amazonaws.com/php-web-app
+    repository: 074548180348.dkr.ecr.us-east-1.amazonaws.com/php-web-app
     tag: 3ca115c963a5365bf7fe1e08dced708d3932a775
   nginx:
     repository: nginx
     tag: latest
-  php_fpm_exporter:
-    repository: quay.io/sysdig/php-fpm-exporter
-    tag: v2.3.3
 
 containers:
   php:
@@ -38,13 +35,12 @@ containers:
       limits:
         cpu: "400m"
         memory: "200Mi"
-  php_fpm_exporter:
-    name: php-fpm-exporter
 
 ports:
   nginx: 80
   php: 9000
-  php_fpm_exporter: 9253
+
+#phpexporter env
 
 env:
   PHP_FPM_WEB_LISTEN_ADDRESS:
@@ -111,20 +107,15 @@ mem:
 volumes:
   vol1: nginx-config-volume
   vol2: shared-files
-  vol3: php-fpm-config
 
 volumeMounts:
   web: /var/www/html/
   nginxConf: /etc/nginx/conf.d/
-  php_fpm:
-    path: /usr/local/etc/php-fpm.d/www.conf
-    subpath: www.conf
 ## ConfigMap
 
 configmap:
   nginx: nginx-config
   phpdb: php-db-configmap
-  php_fpm: php-fpm-config
   dbHost:
     statefullName: mariadb-st-0
     name: db-h
@@ -143,15 +134,9 @@ secret:
 ## Service
 
 service:
-  nginx:
-    name: nginx
-    port: 80
-    targetPort: 80
-    nodePort: 30006
-  php_fpm_exporter:
-    name: php-fpm-exporter
-    port: 9253
-    targetPort: 9253
+  port: 80
+  targetPort: 80
+  nodePort: 30006
 
 ########### Ingress #######################
 
