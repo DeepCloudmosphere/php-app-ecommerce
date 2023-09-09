@@ -64,18 +64,18 @@ spec:
         {{- end }}
         ports:
         - containerPort: {{ .Values.ports.php }}
-        resources:
-          requests:
-          {{- with .Values.containers.php.resources.requests }}
-            memory: {{ .memory }}
-            cpu: {{ .cpu }}
-          {{- end }}
+        # resources:
+        #   requests:
+        #   {{- with .Values.containers.php.resources.requests }}
+        #     memory: {{ .memory }}
+        #     cpu: {{ .cpu }}
+        #   {{- end }}
 
-          limits:
-          {{- with .Values.containers.php.resources.limits }}
-            cpu: {{ .cpu  }}
-            memory: {{ .memory  }}
-          {{- end }}
+        #   limits:
+        #   {{- with .Values.containers.php.resources.limits }}
+        #     cpu: {{ .cpu  }}
+        #     memory: {{ .memory  }}
+        #   {{- end }}
 
 
 
@@ -143,18 +143,18 @@ spec:
         ports:
         - containerPort: {{ .Values.ports.nginx }}
 
-        resources:
-          requests:
-          {{- with .Values.containers.nginx.resources.requests }}
-            memory: {{ .memory }}
-            cpu: {{ .cpu }}
-          {{- end }}
+        # resources:
+        #   requests:
+        #   {{- with .Values.containers.nginx.resources.requests }}
+        #     memory: {{ .memory }}
+        #     cpu: {{ .cpu }}
+        #   {{- end }}
 
-          limits:
-          {{- with .Values.containers.nginx.resources.limits }}
-            cpu: {{ .cpu  }}
-            memory: {{ .memory  }}
-          {{- end }}
+        #   limits:
+        #   {{- with .Values.containers.nginx.resources.limits }}
+        #     cpu: {{ .cpu  }}
+        #     memory: {{ .memory  }}
+        #   {{- end }}
 
         volumeMounts:
         {{- template "volumes" . }}
