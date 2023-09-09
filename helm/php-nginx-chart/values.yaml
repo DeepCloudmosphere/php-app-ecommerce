@@ -84,7 +84,7 @@ cpu:
     default:
       cpu: "600m"
     defaultRequest:
-      cpu: "10m"
+      cpu: "80m"
     type: Container
 
 mem:
