@@ -169,18 +169,17 @@ spec:
         ports:
             - containerPort: {{ .Values.ports.php_fpm_exporter }}
         env:
-        {{- with .Values.env }}
-        - name: {{ .a.name }}
-          value: {{ .a.value }}
-        - name: {{ .b.name }}
-          value: {{ .b.value }}
-        - name: {{ .c.name }}
-          value: {{ .c.value }}
-        - name: {{ .d.name }}
-          value: {{ .d.value }}
-        - name: {{ .e.name }}
-          value: {{ .e.value }}
-        {{- end }}
+        - name: PHP_FPM_WEB_LISTEN_ADDRESS
+          value: 9253
+        - name: PHP_FPM_WEB_TELEMETRY_PATH
+          value: /metrics
+        - name: PHP_FPM_SCRAPE_URI
+          value: tcp://127.0.0.1:9000/status
+        - name: PHP_FPM_FIX_PROCESS_COUNT
+          value: "false"
+        - name: PHP_FPM_LOG_LEVEL
+          value : info
+
 
 
 
