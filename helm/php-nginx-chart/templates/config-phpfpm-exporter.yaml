@@ -5,7 +5,7 @@ metadata:
   namespace: {{ template "namespace" . }}
 data:
     PHP_FPM_WEB_LISTEN_ADDRESS: {{ .Values.phpExporterenv.PHP_FPM_WEB_LISTEN_ADDRESS | quote }}
-    PHP_FPM_WEB_TELEMETRY_PATH: {{ .Values.phpExporterenv.PHP_FPM_WEB_TELEMETRY_PATH }}
-    PHP_FPM_SCRAPE_URI: {{ .Values.phpExporterenv.PHP_FPM_SCRAPE_URI }}
-    PHP_FPM_FIX_PROCESS_COUNT: {{ .Values.phpExporterenv.PHP_FPM_FIX_PROCESS_COUNT }}
-    PHP_FPM_LOG_LEVEL: {{ .Values.phpExporterenv.PHP_FPM_LOG_LEVEL }}
+    PHP_FPM_WEB_TELEMETRY_PATH: {{ .Values.phpExporterenv.PHP_FPM_WEB_TELEMETRY_PATH  }}
+    PHP_FPM_SCRAPE_URI: {{ .Values.phpExporterenv.PHP_FPM_SCRAPE_URI  }}
+    PHP_FPM_FIX_PROCESS_COUNT: {{ .Values.phpExporterenv.PHP_FPM_FIX_PROCESS_COUNT | quote }}
+    PHP_FPM_LOG_LEVEL: {{ .Values.phpExporterenv.PHP_FPM_LOG_LEVEL   }}
