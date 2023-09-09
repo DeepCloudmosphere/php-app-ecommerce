@@ -162,17 +162,7 @@ spec:
         - mountPath: {{ .Values.volumeMounts.nginxConf }}
           name: {{ .Values.volumes.vol1 }}
 
-      # php_fpm_exporter
-      - name: {{ .Release.Name }}-{{ .Values.containers.php_fpm_exporter.name }}
-        {{- with .Values.image.php_fpm_exporter }}
-        image: {{ .repository | default "quay.io/sysdig/php-fpm-exporter" }}:{{ .tag | default "v2.3.3" }}
-        {{- end }}
-        ports:
-            - containerPort: {{ .Values.ports.php_fpm_exporter }}
 
-        envFrom:
-        - configMapRef:
-            name: {{ .Release.Name }}-{{ .Values.configmap.php_fpm_exporter }}
           
 
 

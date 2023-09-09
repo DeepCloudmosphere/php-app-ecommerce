@@ -6,6 +6,7 @@ labels:
   web: nginx-php
   tier: front-end
   ns: web-ns
+  exporter: phpfpm
 
 image:
   php:
@@ -49,7 +50,6 @@ ports:
 phpExporterenv:
   PHP_FPM_WEB_LISTEN_ADDRESS: "9253"
   PHP_FPM_WEB_TELEMETRY_PATH: /metrics
-  PHP_FPM_SCRAPE_URI: tcp://127.0.0.1:9000/status
   PHP_FPM_FIX_PROCESS_COUNT: "false"
   PHP_FPM_LOG_LEVEL: info
 
@@ -139,6 +139,10 @@ service:
     port: 80
     targetPort: 80
     nodePort: 30006
+  php_fpm:
+    name: php-fpm
+    port: 9000
+    targetPort: 9000
   php_fpm_exporter:
     name: php-fpm-exporter
     port: 9253

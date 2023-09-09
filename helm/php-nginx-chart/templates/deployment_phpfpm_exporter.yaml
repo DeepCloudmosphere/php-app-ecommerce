@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-dp-phpfpm-exporter
+  namespace: {{ template "namespace" . }}
+  {{- if .Values.labels.dp }}
+  labels:
+    name: {{ .Values.labels.dp }}
+  {{- end }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+    {{- template "labels2" . }}
+  template:
+    metadata:
+      name: {{ .Release.Name }}-phpfpm-exporter-pod
+      labels:
+      {{- include "labels2" . | indent 2  }}
+    spec:
+      # your node must have this label otherwise pod  going to pending state
+      # nodeSelector:
+      #   node: kubenode02
+
+      ######## node affinity work like node selector but node affinity  more used  in complex scenerio ##########
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: {{ .Values.nodeAffinity.key }}
+                    operator: {{ .Values.nodeAffinity.operator }}
+                    values:
+                    {{- range .Values.nodeAffinity.values }}
+                       - {{ . }}
+                    {{- end }}
+
+      tolerations:
+        - key: {{ .Values.tolerations.a.key }}
+          operator: {{ .Values.tolerations.a.operator }}
+          value: {{ .Values.tolerations.a.value }}
+          effect: {{ .Values.tolerations.a.effect }}
+          # tolerationSeconds: 10
+        - key: {{ .Values.tolerations.b.key }}
+          operator: {{ .Values.tolerations.b.operator }}
+          effect: {{ .Values.tolerations.b.effect }}
+          # tolerationSeconds: 10
+
+      containers:
+      # php_fpm_exporter
+      - name: {{ .Release.Name }}-{{ .Values.containers.php_fpm_exporter.name }}
+        {{- with .Values.image.php_fpm_exporter }}
+        image: {{ .repository | default "quay.io/sysdig/php-fpm-exporter" }}:{{ .tag | default "v2.3.3" }}
+        {{- end }}
+        ports:
+            - containerPort: {{ .Values.ports.php_fpm_exporter }}
+
+        envFrom:
+        - configMapRef:
+            name: {{ .Release.Name }}-{{ .Values.configmap.php_fpm_exporter }}
+
+
+
+
+
+

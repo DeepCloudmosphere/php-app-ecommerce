@@ -1,0 +1,23 @@
+
+{{- if .Values.ingress.create }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-svc-phpfpm-exporter
+  namespace: {{ template "namespace" . }}
+spec:
+  # type: NodePort
+  {{- with .Values.service }}
+  ports:
+  - port: {{ .php_fpm_exporter.port }}
+    targetPort: {{ .php_fpm_exporter.targetPort }}
+    name: {{ .php_fpm_exporter.name }}
+
+  {{- end }}
+  selector:
+      {{- template "labels2" . }}
+
+{{- end }}
+
+
+

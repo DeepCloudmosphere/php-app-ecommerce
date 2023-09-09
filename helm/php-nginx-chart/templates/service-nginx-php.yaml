@@ -13,9 +13,9 @@ spec:
     targetPort: {{ .nginx.targetPort }}
     name: {{ .nginx.name }}
     # nodePort: 30006
-  - port: {{ .php_fpm_exporter.port }}
-    targetPort: {{ .php_fpm_exporter.targetPort }}
-    name: {{ .php_fpm_exporter.name }}
+  - port: {{ .php_fpm.port }}
+    targetPort: {{ .php_fpm.targetPort }}
+    name: {{ .php_fpm.name }}
 
   {{- end }}
   selector:
