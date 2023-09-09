@@ -154,23 +154,22 @@ spec:
         - mountPath: {{ .Values.volumeMounts.nginxConf }}
           name: {{ .Values.volumes.vol1 }}
         
-      # # php_fpm_exporter
-      # - name: php_fpm_exporter
-      #   image: "quay.io/sysdig/php-fpm-exporter:v2.3.3"
-
-      #   ports:
-      #       - containerPort: 9253
-      #   env:
-      #   - name: PHP_FPM_WEB_LISTEN_ADDRESS
-      #     value: 9253
-      #   - name: PHP_FPM_WEB_TELEMETRY_PATH
-      #     value: /metrics
-      #   - name: PHP_FPM_SCRAPE_URI
-      #     value: tcp://127.0.0.1:9000/status
-      #   - name: PHP_FPM_FIX_PROCESS_COUNT
-      #     value: "false"
-      #   - name: PHP_FPM_LOG_LEVEL
-      #     value: info
+      # php_fpm_exporter
+      - name: phpexporter
+        image: "quay.io/sysdig/php-fpm-exporter:v2.3.3"
+        ports:
+            - containerPort: 9253
+        env:
+        - name: PHP_FPM_WEB_LISTEN_ADDRESS
+          value: 9253
+        - name: PHP_FPM_WEB_TELEMETRY_PATH
+          value: /metrics
+        - name: PHP_FPM_SCRAPE_URI
+          value: tcp://127.0.0.1:9000/status
+        - name: PHP_FPM_FIX_PROCESS_COUNT
+          value: "false"
+        - name: PHP_FPM_LOG_LEVEL
+          value: info
 
 
         # env:
