@@ -5,7 +5,7 @@ metadata:
   namespace: {{ template "namespace" . }}
 data:
     PHP_FPM_WEB_LISTEN_ADDRESS: {{ .Values.phpExporterenv.PHP_FPM_WEB_LISTEN_ADDRESS | quote }}
-    PHP_FPM_WEB_TELEMETRY_PATH: /metrics
+    PHP_FPM_WEB_TELEMETRY_PATH: {{ .Values.phpExporterenv.PHP_FPM_WEB_TELEMETRY_PATH }}
     PHP_FPM_SCRAPE_URI: tcp://127.0.0.1:9000/status
     PHP_FPM_FIX_PROCESS_COUNT: "false"
     PHP_FPM_LOG_LEVEL: info
