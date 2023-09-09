@@ -190,7 +190,6 @@ spec:
 
 
 
-
       ##################################you can also use init container for code #######################
 
       # initContainers:
