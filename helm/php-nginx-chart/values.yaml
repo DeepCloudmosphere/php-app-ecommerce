@@ -49,7 +49,7 @@ ports:
 env:
   PHP_FPM_WEB_LISTEN_ADDRESS:
     name: PHP_FPM_WEB_LISTEN_ADDRESS
-    value: 9253
+    value: "9253"
   PHP_FPM_WEB_TELEMETRY_PATH:
     name: PHP_FPM_WEB_TELEMETRY_PATH
     value: /metrics
