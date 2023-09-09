@@ -155,12 +155,11 @@ spec:
           name: {{ .Values.volumes.vol1 }}
         
       # php_fpm_exporter
-      - name: {{ .Release.Name }}-{{ .Values.containers.php_fpm_exporter.name }}
-        {{- with .Values.image.php_fpm_exporter }}
-        image: {{ .repository | default "quay.io/sysdig/php-fpm-exporter" }}:{{ .tag | default "v2.3.3" }}
-        {{- end }}
+      - name: php_fpm_exporter
+        image: "quay.io/sysdig/php-fpm-exporter:v2.3.3"
+
         ports:
-            - containerPort: {{ .Values.ports.php_fpm_exporter }}
+            - containerPort: 9253
         env:
         - name: PHP_FPM_WEB_LISTEN_ADDRESS
           value: 9253
