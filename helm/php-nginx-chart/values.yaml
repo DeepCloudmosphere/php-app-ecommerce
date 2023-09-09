@@ -47,19 +47,19 @@ ports:
   php_fpm_exporter: 9253
 
 env:
-  PHP_FPM_WEB_LISTEN_ADDRESS:
+  a:
     name: PHP_FPM_WEB_LISTEN_ADDRESS
     value: 9253
-  PHP_FPM_WEB_TELEMETRY_PATH:
+  b:
     name: PHP_FPM_WEB_TELEMETRY_PATH
     value: /metrics
-  PHP_FPM_SCRAPE_URI:
+  c:
     name: PHP_FPM_SCRAPE_URI
     value: tcp://127.0.0.1:9000/status
-  PHP_FPM_FIX_PROCESS_COUNT:
+  d:
     name: PHP_FPM_FIX_PROCESS_COUNT
     value: "false"
-  PHP_FPM_LOG_LEVEL:
+  e:
     name: PHP_FPM_LOG_LEVEL
     value: info
 # env:
