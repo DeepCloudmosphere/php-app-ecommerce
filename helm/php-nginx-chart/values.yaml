@@ -47,21 +47,37 @@ ports:
   php_fpm_exporter: 9253
 
 env:
-  PHP_FPM_WEB_LISTEN_ADDRESS:
+  ADDRESS:
     name: PHP_FPM_WEB_LISTEN_ADDRESS
     value: "9253"
-  PHP_FPM_WEB_TELEMETRY_PATH:
+  PATH:
     name: PHP_FPM_WEB_TELEMETRY_PATH
     value: /metrics
-  PHP_FPM_SCRAPE_URI:
+  URI:
     name: PHP_FPM_SCRAPE_URI
     value: tcp://127.0.0.1:9000/status
-  PHP_FPM_FIX_PROCESS_COUNT:
+  COUNT:
     name: PHP_FPM_FIX_PROCESS_COUNT
     value: "false"
-  PHP_FPM_LOG_LEVEL:
+  LEVEL:
     name: PHP_FPM_LOG_LEVEL
     value: info
+# env:
+#   PHP_FPM_WEB_LISTEN_ADDRESS:
+#     name: PHP_FPM_WEB_LISTEN_ADDRESS
+#     value: "9253"
+#   PHP_FPM_WEB_TELEMETRY_PATH:
+#     name: PHP_FPM_WEB_TELEMETRY_PATH
+#     value: /metrics
+#   PHP_FPM_SCRAPE_URI:
+#     name: PHP_FPM_SCRAPE_URI
+#     value: tcp://127.0.0.1:9000/status
+#   PHP_FPM_FIX_PROCESS_COUNT:
+#     name: PHP_FPM_FIX_PROCESS_COUNT
+#     value: "false"
+#   PHP_FPM_LOG_LEVEL:
+#     name: PHP_FPM_LOG_LEVEL
+#     value: info
 
 ## node affinity
 nodeAffinity:
