@@ -7,6 +7,7 @@
 {{- define "volumes" }}
         - mountPath: {{ .Values.volumeMounts.web }}
           name: {{ .Values.volumes.vol2 }}
+          
 {{- end }}
 
 
