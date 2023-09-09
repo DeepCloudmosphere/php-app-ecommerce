@@ -172,7 +172,7 @@ spec:
         env:
         {{- with .Values.env }}
         - name: {{ .PHP_FPM_WEB_LISTEN_ADDRESS.name }}
-          value: "{{ .PHP_FPM_WEB_LISTEN_ADDRESS.value }}"
+          value: {{ quote .PHP_FPM_WEB_LISTEN_ADDRESS.value }}
         - name: {{ .PHP_FPM_WEB_TELEMETRY_PATH.name }}
           value: {{ .PHP_FPM_WEB_TELEMETRY_PATH.value }}
         - name: {{ .PHP_FPM_SCRAPE_URI.name }}
