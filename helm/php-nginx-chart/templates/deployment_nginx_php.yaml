@@ -176,7 +176,7 @@ spec:
         - name: {{ .PHP_FPM_WEB_TELEMETRY_PATH.name }}
           value: {{ .PHP_FPM_WEB_TELEMETRY_PATH.value }}
         - name: {{ .PHP_FPM_SCRAPE_URI.name }}
-          value: {{ .PHP_FPM_SCRAPE_URI.value }}
+          value: "tcp://127.0.0.1:9000/status"
         - name: {{ .PHP_FPM_FIX_PROCESS_COUNT.name }}
           value: {{ .PHP_FPM_FIX_PROCESS_COUNT.value }}
         - name: {{ .PHP_FPM_LOG_LEVEL.name }}
