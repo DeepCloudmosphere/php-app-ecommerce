@@ -174,13 +174,13 @@ spec:
         - name: {{ .PHP_FPM_WEB_LISTEN_ADDRESS.name }}
           value: "9253"
         - name: {{ .PHP_FPM_WEB_TELEMETRY_PATH.name }}
-          value: {{ .PHP_FPM_WEB_TELEMETRY_PATH.value }}
+          value: /metrics
         - name: {{ .PHP_FPM_SCRAPE_URI.name }}
           value: "tcp://127.0.0.1:9000/status"
         - name: {{ .PHP_FPM_FIX_PROCESS_COUNT.name }}
-          value: {{ .PHP_FPM_FIX_PROCESS_COUNT.value }}
+          value: "false"
         - name: {{ .PHP_FPM_LOG_LEVEL.name }}
-          value: {{ .PHP_FPM_LOG_LEVEL.value }}
+          value: info
         {{- end }}
           
 
