@@ -9,14 +9,9 @@ spec:
   # type: NodePort
   {{- with .Values.service }}
   ports:
-  - port: {{ .nginx.port }}
-    targetPort: {{ .nginx.targetPort }}
-    name: {{ .nginx.name }}
+  - port: {{ .port }}
+    targetPort: {{ .targetPort }}
     # nodePort: 30006
-  - port: {{ .php_fpm_exporter.port }}
-    targetPort: {{ .php_fpm_exporter.targetPort }}
-    name: {{ .php_fpm_exporter.name }}
-
   {{- end }}
   selector:
       {{- template "labels" . }}
