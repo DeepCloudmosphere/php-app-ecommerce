@@ -46,22 +46,12 @@ ports:
   php: 9000
   php_fpm_exporter: 9253
 
-env:
-  PHP_FPM_WEB_LISTEN_ADDRESS:
-    name: PHP_FPM_WEB_LISTEN_ADDRESS
-    value: 9253
-  PHP_FPM_WEB_TELEMETRY_PATH:
-    name: PHP_FPM_WEB_TELEMETRY_PATH
-    value: /metrics
-  PHP_FPM_SCRAPE_URI:
-    name: PHP_FPM_SCRAPE_URI
-    value: tcp://127.0.0.1:9000/status
-  PHP_FPM_FIX_PROCESS_COUNT:
-    name: PHP_FPM_FIX_PROCESS_COUNT
-    value: "false"
-  PHP_FPM_LOG_LEVEL:
-    name: PHP_FPM_LOG_LEVEL
-    value: info
+phpExporterenv:
+  PHP_FPM_WEB_LISTEN_ADDRESS: 9253
+  PHP_FPM_WEB_TELEMETRY_PATH: /metrics
+  PHP_FPM_SCRAPE_URI: tcp://127.0.0.1:9000/status
+  PHP_FPM_FIX_PROCESS_COUNT: "false"
+  PHP_FPM_LOG_LEVEL: info
 
 ## node affinity
 nodeAffinity:
@@ -125,6 +115,7 @@ configmap:
   nginx: nginx-config
   phpdb: php-db-configmap
   php_fpm: php-fpm-config
+  php_fpm_exporter: php-fpm-exporter
   dbHost:
     statefullName: mariadb-st-0
     name: db-h
