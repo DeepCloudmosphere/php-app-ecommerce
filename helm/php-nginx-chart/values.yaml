@@ -7,7 +7,7 @@ labels:
   tier: front-end
   ns: web-ns
   exporter: phpfpm
-  svc: php-fpm-exporter
+  svc: phpecom-exporter
 
 image:
   php:
