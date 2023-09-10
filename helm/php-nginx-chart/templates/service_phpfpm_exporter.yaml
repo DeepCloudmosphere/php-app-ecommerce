@@ -5,6 +5,8 @@ kind: Service
 metadata:
   name: {{ .Release.Name }}-svc-phpfpm-exporter
   namespace: {{ template "namespace" . }}
+  labels:
+    {{- template "servicelabels" . }}
 spec:
   # type: NodePort
   {{- with .Values.service }}

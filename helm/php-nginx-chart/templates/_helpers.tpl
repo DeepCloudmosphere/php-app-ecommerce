@@ -4,6 +4,11 @@
       tier: {{ .Values.labels.tier }}
 {{- end }}
 
+{{- define "servicelabels" }}
+      svc: {{ .Values.labels.svc }}
+      tier: {{ .Values.labels.tier }}
+{{- end }}
+
 {{- define "labels2" }}
       exporter: {{ .Values.labels.exporter }}
       tier: {{ .Values.labels.tier }}
